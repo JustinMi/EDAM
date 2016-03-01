@@ -1,34 +1,37 @@
 var clean_data = {};
-var string = "inaturalist"
+//added limit (number of results per page) = 300 and offset (1 to 50)
+for (var index = 1; index < 50; index++) {
+  $.ajax({
+    // search taxonomy, location, and references
+    url: 'http://api.gbif.org/v1/occurrence/search?scientificName=Puma concolor&limit=300&offset='+index,
+  }).done(function(data) {
+      var extract_results = []
+      // extract taxa (kingdom, phylum, order, family, genus, and species),
+      //  location (country, latitude, and longitude),
+      //  and references (excluding data from inaturalist)
+      for (var i = 0; i < data.results.length; i++) {
+        var ref = data.results[i].datasetName;
+        // only data from inaturalist has a field labeled datasetName
+        if (typeof ref == "undefined") {
+            var data_extract = {
+              'kingdom': data.results[i].kingdom,
+              'phylum': data.results[i].phylum,
+              'order': data.results[i].order,
+              'family': data.results[i].family,
+              'genus': data.results[i].genus,
+              'species': data.results[i].species,
+              'country': data.results[i].country,
+              'latitude': data.results[i].decimalLatitude,
+              'longitude': data.results[i].decimalLongitude,
+              'references': data.results[i].institutionCode
+              };
+          //console.log(data_extract);
+            extract_results.push(data_extract);
+          }
+        }
 
-$.ajax({
-  // search taxonomy
-  url: 'http://api.gbif.org/v1/species/search?q=Puma concolor',
-}).done(function(data) {
-  // print all results from API
-  //console.log(data);
-  var extract_results = []
-
-  // extract kingdom, phylum, order, family, genus, species, common names,
-  for (var i = 0; i < data.results.length; i++) {
-    if data.results[i].references.indexOf(string) > -1:
-      var data_extract = {
-        'kingdom': data.results[i].kingdom,
-        'phylum': data.results[i].phylum,
-        'order': data.results[i].order,
-        'family': data.results[i].family,
-        'genus': data.results[i].genus,
-        'species': data.results[i].species,
-        'common_names': data.results[i].vernacularNames,
-      };
-      console.log(data_extract);
-    else:
-      console.log("i");
-    //console.log(data_extract);
-    extract_results.push(data_extract);
-  }
-
-  // add cleaned results to object
-  clean_data['results'] = extract_results;
-  console.log(clean_data);
-});
+      // add cleaned results to object
+      clean_data['results'] = extract_results;
+      console.log(clean_data);
+    });
+}
