@@ -10,6 +10,9 @@ function searchGbif(species) {
     }).done(function(data) {
         // extract species and taxonomy from first entry (change i for more entries)
         for (var i = 0; i < 1; i++) {
+            // removed the filtering out of entries from inaturalist for now
+            // var ref = data.results[i].datasetName;
+            // if (typeof ref == "undefined") {
             if (results != null) {
                 var results = {
                     'species': data.results[i].species,
