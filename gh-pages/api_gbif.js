@@ -1,11 +1,13 @@
 var clean_data = {};
+var extract_results = [];
+
 //added limit (number of results per page) = 300 and offset (1 to 50)
-for (var index = 1; index < 50; index++) {
+for (var index = 1; index < 2; index++) {
   $.ajax({
     // search taxonomy, location, and references
-    url: 'http://api.gbif.org/v1/occurrence/search?scientificName=Puma concolor&limit=300&offset='+index,
+    url: 'http://api.gbif.org/v1/occurrence/search?scientificName=Puma concolor&limit=200&offset='+index,
   }).done(function(data) {
-      var extract_results = []
+      //var extract_results = []
       // extract taxa (kingdom, phylum, order, family, genus, and species),
       //  location (country, latitude, and longitude),
       //  and references (excluding data from inaturalist)
@@ -30,8 +32,10 @@ for (var index = 1; index < 50; index++) {
           }
         }
 
+      if (index == 49) {
       // add cleaned results to object
-      clean_data['results'] = extract_results;
-      console.log(clean_data);
+        clean_data['results'] = extract_results;
+        console.log(clean_data);
+      }
     });
 }
