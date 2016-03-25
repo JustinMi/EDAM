@@ -1,41 +1,41 @@
-var clean_data = {};
-var extract_results = [];
+var api_data = [];
+var searchGbif = function(species, index) {
+    var dfd = $.Deferred();
+    var limit = 300;
+    var offset = 0;
+    if (index != 0) {
+        offset = index*limit
+  }
 
-//added limit (number of results per page) = 300 and offset (1 to 50)
-for (var index = 1; index < 2; index++) {
-  $.ajax({
-    // search taxonomy, location, and references
-    url: 'http://api.gbif.org/v1/occurrence/search?scientificName=Puma concolor&limit=200&offset='+index,
-  }).done(function(data) {
-      //var extract_results = []
-      // extract taxa (kingdom, phylum, order, family, genus, and species),
-      //  location (country, latitude, and longitude),
-      //  and references (excluding data from inaturalist)
-      for (var i = 0; i < data.results.length; i++) {
-        var ref = data.results[i].datasetName;
-        // only data from inaturalist has a field labeled datasetName
-        if (typeof ref == "undefined") {
-            var data_extract = {
-              'kingdom': data.results[i].kingdom,
-              'phylum': data.results[i].phylum,
-              'order': data.results[i].order,
-              'family': data.results[i].family,
-              'genus': data.results[i].genus,
-              'species': data.results[i].species,
-              'country': data.results[i].country,
-              'latitude': data.results[i].decimalLatitude,
-              'longitude': data.results[i].decimalLongitude,
-              'references': data.results[i].institutionCode
-              };
-          //console.log(data_extract);
-            extract_results.push(data_extract);
-          }
+    $.ajax({
+        url: 'http://api.gbif.org/v1/occurrence/search?scientificName='+species+'&limit='+limit+'&offset='+offset,
+    }).done(function(data) {
+
+        for (var i = 0; i < data.results.length; i++) {
+            var results = {
+                'kingdom': data.results[i].kingdom,
+                'phylum': data.results[i].phylum,
+                'order': data.results[i].order,
+                'family': data.results[i].family,
+                'genus': data.results[i].genus,
+                'species': data.results[i].species,
+                'country': data.results[i].country,
+                'latitude': data.results[i].decimalLatitude,
+                'longitude': data.results[i].decimalLongitude,
+                'references': data.results[i].institutionCode
+            };
+            api_data.push(results);
         }
 
-      if (index == 49) {
-      // add cleaned results to object
-        clean_data['results'] = extract_results;
-        console.log(clean_data);
-      }
+        if (data.endOfRecords == true) {
+            console.log(api_data);
+            dfd.resolve(api_data);
+        } else {
+            searchGbif(species, index+1)
+        }
     });
+    
+    return dfd.promise();
 }
+
+searchGbif('Puma concolor', 0);
