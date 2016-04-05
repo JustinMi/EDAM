@@ -25,15 +25,21 @@ function count_inat(query,api_dfd, results) {
 
 
 var jqXHR=$.ajax({
-	url: "http://api.inaturalist.org/v1/observations?q="+query+"&per_page=500&order=desc&order_by=created_at"
+	url: "http://api.inaturalist.org/v1/observations/species_counts?q="+query
 
 
 
 }
 
 	).done(function(data){
-    var headers = jqXHR.getResponseHeader('X-Total-Entries');
-    results['iNaturalist'] = {'count': headers, 'database': 'iNaturalist'};
+   	var count = 0;
+   	if (data.results.length == 0) {
+    	
+    }
+    else {
+    var count = data.results[0].count
+    }
+    results['iNaturalist'] = {'count': count, 'database': 'iNaturalist'};
 	api_dfd.resolve();
 
 	});

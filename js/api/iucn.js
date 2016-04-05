@@ -25,7 +25,7 @@ var jqXHR=$.ajax({
 
 function count_iucn(api_dfd, results) {
 	var jqXHR=$.ajax({
-	url: "http://apiv3.iucnredlist.org/api/v3/species/+"query+"?token=49a8a2b7e481a521cb4c4c5360044de9a81c5fac89bd5db1db80f733e93126db"
+	url: "http://apiv3.iucnredlist.org/api/v3/species/"+query+"?token=49a8a2b7e481a521cb4c4c5360044de9a81c5fac89bd5db1db80f733e93126db"
 
 
 }
@@ -46,4 +46,17 @@ function count_iucn(api_dfd, results) {
 		api_dfd.resolve();
 	});
 	
+}
+
+function locationsearch_iucn(query, location, api_dfd, results) {
+	var jqXHR=$.ajax({
+	url: "http://apiv3.iucnredlist.org/api/v3/species/countries/name"+query+"?token=49a8a2b7e481a521cb4c4c5360044de9a81c5fac89bd5db1db80f733e93126db"
+
+
+}
+).done(function(data){
+
+		api_dfd.resolve();
+});
+
 }
