@@ -14,7 +14,7 @@ var jqXHR=$.ajax({
 		if(data.result.length>0) {
 				var info = data.result[0];
 		 var taxon = [info.kingdom, info.phylum, info.order, info.family, info.genus];
-		results['iucn'] = {'name': query, 'taxonomy': taxon, 'database': 'IUCN'};
+		results['iucn'] = {'name': query, 'taxonomy': taxon.join(), 'database': 'IUCN'};
 		
 		}
 	
