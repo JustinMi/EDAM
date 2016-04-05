@@ -5,7 +5,7 @@ function search_inat(query, api_dfd, results) {
 var cleaned=[];
 
 var jqXHR=$.ajax({
-	url: "http://api.inaturalist.org/v1/observations?q=puma%20concolor&per_page=500&order=desc&order_by=created_at"
+	url: "http://api.inaturalist.org/v1/observations?q="+query+"&per_page=500&order=desc&order_by=created_at"
 
 
 }
@@ -21,11 +21,12 @@ var jqXHR=$.ajax({
 	});
 }
 
-function count_inat(query, api_dfd, results) {
+function count_inat(query,api_dfd, results) {
 
 
 var jqXHR=$.ajax({
-	url: "http://api.inaturalist.org/v1/observations?q=puma%20concolor&per_page=500&order=desc&order_by=created_at"
+	url: "http://api.inaturalist.org/v1/observations?q="+query+"&per_page=500&order=desc&order_by=created_at"
+
 
 
 }

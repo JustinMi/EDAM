@@ -1,4 +1,4 @@
-function search_inat(query, api_dfd, results) {
+function search_iucn(query, api_dfd, results) {
 var cleaned=[];
 
 var jqXHR=$.ajax({
@@ -9,16 +9,38 @@ var jqXHR=$.ajax({
 
 	).done(function(data){
     
-    console.log(data);
+   
 		
 		if(data.result.length>0) {
 				var info = data.result[0];
 		 var taxon = [info.kingdom, info.phylum, info.order, info.family, info.genus];
-		results['inaturalist'] = {'name': query, 'taxonomy': taxon, 'database': 'IUCN'};
+		results['iucn'] = {'name': query, 'taxonomy': taxon, 'database': 'IUCN'};
 		
 		}
 	
 	api_dfd.resolve();
 	});
 
+}
+
+function count_iucn(api_dfd, results) {
+	var jqXHR=$.ajax({
+	url: "http://apiv3.iucnredlist.org/api/v3/species/+"query+"?token=49a8a2b7e481a521cb4c4c5360044de9a81c5fac89bd5db1db80f733e93126db"
+
+
+}
+
+	).done(function(data){
+    
+    
+		
+		if(data.result.length>0) {
+				var info = data.result[0];
+		 var taxon = [info.kingdom, info.phylum, info.order, info.family, info.genus];
+		results['iucn'] = {'count': 1, 'database': 'iNaturalist'};
+		
+		}
+		api_dfd.resolve();
+	});
+	
 }
