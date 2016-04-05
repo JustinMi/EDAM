@@ -37,8 +37,11 @@ function count_iucn(api_dfd, results) {
 		if(data.result.length>0) {
 				var info = data.result[0];
 		 var taxon = [info.kingdom, info.phylum, info.order, info.family, info.genus];
-		results['iucn'] = {'count': 1, 'database': 'iNaturalist'};
+		results['iucn'] = {'count': 1, 'database': 'IUCN'};
 		
+		}
+		else {
+			results['iucn'] = {'count': 1, 'database': 'IUCN'};
 		}
 		api_dfd.resolve();
 	});
