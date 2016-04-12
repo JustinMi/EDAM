@@ -55,10 +55,10 @@ else {
     
 		var count = data.count;
 		
-		results['NAS'] = {'count': count, 'database': 'IUCN'};
+		results['NAS'] = {'count': count, 'database': 'NAS'};
 		
 		
-			results['NAS'] = {'count': count, 'database': 'IUCN'};
+			results['NAS'] = {'count': count, 'database': 'NAS'};
 		
 		api_dfd.resolve();
 	});
