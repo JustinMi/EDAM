@@ -45,3 +45,14 @@ var jqXHR=$.ajax({
 	});
 }
 		
+function locationsearch_iucn(query, location, api_dfd, results) {
+	var jqXHR=$.ajax({
+	url: "https://www.inaturalist.org/places.json?place_type=country&q="+location
+
+
+}
+).done(function(data){
+		$.each
+});
+
+}
