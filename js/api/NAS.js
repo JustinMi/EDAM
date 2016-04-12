@@ -3,7 +3,7 @@ var cleaned=[];
 var space = query.indexOf(" ");
 var genus = "";
 var species = "";
-if (space < 0) {
+if (space > 0) {
 	genus = query.substring(0,space);
 	species = query.substring(space + 1);
 }
@@ -36,7 +36,7 @@ function count_iucn(query, api_dfd, results) {
 	var space = query.indexOf(" ");
 var genus = "";
 var species = "";
-if (space < 0) {
+if (space > 0) {
 	genus = query.substring(0,space);
 	species = query.substring(space + 1);
 }
@@ -63,4 +63,46 @@ else {
 		api_dfd.resolve();
 	});
 	
+}
+
+function locationsearch(query, location, api_dfd, results) {
+	var space = query.indexOf(" ");
+var genus = "";
+var species = "";
+if (space > 0) {
+	genus = query.substring(0,space);
+	species = query.substring(space + 1);
+}
+else {
+	alert("call invalid, roy do whatever you want to handle this exception");
+}
+	if (location === "USA" || location === "United States") {
+	var jqXHR=$.ajax({
+	url: "http://nas.er.usgs.gov/api/v1/occurrence/search?genus="+genus+"&species="+species+"&api_key=7F0F12B9-BFF1-4266-A0B5-77C4115CA7B8"
+
+
+
+	}
+
+	).done(function(data){
+    
+    
+		var count = data.count;
+		if (count > 0) {
+		results['NAS'] = {'location':location,'count': count, 'database': 'NAS'};
+		
+		
+		}
+		else {
+			results['NAS'] = {'location':location,'count': 0, 'database': 'NAS'};
+		}
+		api_dfd.resolve();
+	});
+
+
+	}
+	else {
+		results['NAS'] = {'location':location,'count': 0, 'database': 'NAS'};
+		api_dfd.resolve();
+	}
 }
