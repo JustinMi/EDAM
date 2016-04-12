@@ -6,6 +6,7 @@ var databases = {
                 'iucn': {'basic': search_iucn, 'location': search_iucn_location},
                 'inaturalist': {'basic': search_inat, 'location': search_inat_location}
                 };
+var autoTags = ['Puma', 'Puma concolor', "Puma concolor mayensis"]; 
 
 searchDatabase = function(query, locationQuery, search_dfd, results) {
 
@@ -37,6 +38,16 @@ searchDatabase = function(query, locationQuery, search_dfd, results) {
 };
 
 app.controller('searchController', function($scope) {
+
+  $scope.updateAutoComplete = function() {
+    //autoTags = autoComplete($('#form-control').text());
+    var q = $('#form-control').text();  
+    //autoTags = autoComplete(q);
+    autoTage = autoComplete("Puma");
+    console.log(autoTags);
+
+  }
+
   // data model for results table
   $scope.searchResult = {};
 
@@ -67,29 +78,31 @@ $(function() {
       "ActionScript",
       "AppleScript",
       "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme",
-      "puma",
-      "puma concolor"
+      "Puma",
+      "Puma concolor"
     ];
-    $( ".form-control" ).autocomplete({
-      source: availableTags
+    var autocompletedTags = autoComplete($("Puma").text());
+    console.log($('#form-control').text());
+    $(".form-control").autocomplete({
+      source: autoTags
     });
   });
+
+autoComplete = function(query) {
+  $.ajax({
+    url: 'http://api.gbif.org/v1/species/suggest?q=' + query,
+  }).done(function(data) {
+    // check if there are results
+    if (data.length != 0) {
+      // extract taxonomy from first entry  
+      var taxons = []; 
+       $.each(data, function(i, animalObj) {
+        taxons.push (animalObj.canonicalName); 
+      }); 
+      console.log(taxons);
+      return (taxons); 
+    }
+  });
+}
+
+

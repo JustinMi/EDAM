@@ -42,7 +42,7 @@
     <div id="search-form" >
       <form role="form" autocomplete="on">
         <div class = "input-group">
-          <input class="form-control" type="text" ng-model="query" placeholder="species">
+          <input class="form-control" type="text" ng-model="query" ng-change = "updateAutoComplete()" placeholder="species">
           <span class="input-group-addon">-</span>
           <input class="form-control" type="text" ng-model="locationQuery" placeholder="location">
         </div>       
