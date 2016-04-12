@@ -1,3 +1,5 @@
+var autoTags = ['cat', 'dog', 'fish'];  //default drop-downs. 
+
 var app = angular.module('edamApp', []);
 
 var databases = {
@@ -6,7 +8,6 @@ var databases = {
                 'iucn': {'basic': search_iucn, 'location': search_iucn_location},
                 'inaturalist': {'basic': search_inat, 'location': search_inat_location}
                 };
-var autoTags = ['Puma', 'Puma concolor', "Puma concolor mayensis"]; 
 
 searchDatabase = function(query, locationQuery, search_dfd, results) {
 
@@ -40,12 +41,13 @@ searchDatabase = function(query, locationQuery, search_dfd, results) {
 app.controller('searchController', function($scope) {
 
   $scope.updateAutoComplete = function() {
-    //autoTags = autoComplete($('#form-control').text());
-    var q = $('#form-control').text();  
-    //autoTags = autoComplete(q);
-    autoTage = autoComplete("Puma");
-    console.log(autoTags);
+    var q = $('.form-control').val();
+    autoComplete(q); // update auto complete 
+    console.log("array is " + autoTags);
 
+    $(".form-control").autocomplete({
+      source: autoTags
+    });
   }
 
   // data model for results table
@@ -73,20 +75,6 @@ app.controller('searchController', function($scope) {
   }
 });
 
-$(function() {
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "Puma",
-      "Puma concolor"
-    ];
-    var autocompletedTags = autoComplete($("Puma").text());
-    console.log($('#form-control').text());
-    $(".form-control").autocomplete({
-      source: autoTags
-    });
-  });
 
 autoComplete = function(query) {
   $.ajax({
@@ -94,13 +82,16 @@ autoComplete = function(query) {
   }).done(function(data) {
     // check if there are results
     if (data.length != 0) {
+      //only want the first ten  records. 
+      data = data.splice(0, 10); 
       // extract taxonomy from first entry  
-      var taxons = []; 
+      autoTags = []; 
        $.each(data, function(i, animalObj) {
-        taxons.push (animalObj.canonicalName); 
+        autoTags.push (animalObj.canonicalName); 
       }); 
-      console.log(taxons);
-      return (taxons); 
+      //console.log("taxons are " +);
+      //console.log("array is  " + autoTags);
+      //return taxons; 
     }
   });
 }
