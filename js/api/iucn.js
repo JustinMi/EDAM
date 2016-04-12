@@ -65,7 +65,7 @@ function locationsearch_iucn(query, location, api_dfd, results) {
 				if (v.country === location) {
 					results['iucn'] = {'count' : 1, 'location': location, 'database': 'IUCN'};
 					has = true;
-					break;
+					return false;
 				}
 			
 			});
