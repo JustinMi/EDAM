@@ -33,6 +33,16 @@ var jqXHR=$.ajax({
 }
 
 function count_iucn(query, api_dfd, results) {
+	var space = query.indexOf(" ");
+var genus = "";
+var species = "";
+if (space < 0) {
+	genus = query.substring(0,space);
+	species = query.substring(space + 1);
+}
+else {
+	alert("call invalid, roy do whatever you want to handle this exception");
+}
 	var jqXHR=$.ajax({
 	url: "http://nas.er.usgs.gov/api/v1/occurrence/search?genus="+genus+"&species="+species+"&api_key=7F0F12B9-BFF1-4266-A0B5-77C4115CA7B8"
 
