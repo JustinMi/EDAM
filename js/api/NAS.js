@@ -1,4 +1,4 @@
-function search_iucn(query, api_dfd, results) {
+function search_nas(query, api_dfd, results) {
 var cleaned=[];
 var space = query.indexOf(" ");
 var genus = "";
@@ -32,7 +32,7 @@ var jqXHR=$.ajax({
 
 }
 
-function count_iucn(query, api_dfd, results) {
+function count_nas(query, api_dfd, results) {
 	var space = query.indexOf(" ");
 var genus = "";
 var species = "";
@@ -65,7 +65,7 @@ else {
 	
 }
 
-function locationsearch(query, location, api_dfd, results) {
+function locationsearchnas(query, location, api_dfd, results) {
 	var space = query.indexOf(" ");
 var genus = "";
 var species = "";
