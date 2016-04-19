@@ -1,6 +1,6 @@
 
  $.ajax({
-    // currently gets 5 results
+    
     type: "POST",
     dataType: 'jsonp',
     
@@ -9,7 +9,7 @@
     // check if there are results
     if (data.length != 0) {
       console.log(data);
-      alert(data.items[0].pagemap.cse_image[0].src);
+      console.log(data.items[0].pagemap.cse_image[0].src); // this is the image
     }
 
     // notify search complete
