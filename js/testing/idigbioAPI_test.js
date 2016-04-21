@@ -23,9 +23,42 @@ function mode(array) {
   return maxEl;
 }
 
-function search_idigbio(query, api_dfd, results) {
+function search_idigbio_location(query, location, api_dfd) {
+  location = location || "";
   // call idigbio service
   $.ajax({
+    url: 'https://search.idigbio.org/v2/search/records/',
+    dataType: 'json',
+    contentType: 'application/json',
+    type: 'POST',
+    // update search limit
+    data: JSON.stringify({ limit:5, rq:{scientificname: query, country: location} })
+  }).done(function(data) {
+    // process resulting data
+    var taxon = [];
+    var count = data.itemCount;
+    
+    $.each(data.items, function(index, value) {
+      var resultObject = value.indexTerms;
+      if (resultObject.highertaxon) {
+        taxon.push(resultObject.highertaxon);
+      }
+    });
+
+    // check if there are any results
+    if (data.items.length !=  0) {
+      console.log(results);
+      results['idigbio'] = {'name': query};
+    }
+    // notify done to controller
+    api_dfd.resolve();
+  });
+}
+
+/* function search_idigbio_commonname_taxon(query, api_dfd, results) {
+
+  //call iDigBio Service
+$.ajax({
     url: 'https://search.idigbio.org/v2/search/records/',
     dataType: 'json',
     contentType: 'application/json',
@@ -36,20 +69,13 @@ function search_idigbio(query, api_dfd, results) {
     // process resulting data
     var taxon = [];
     var count = data.itemCount;
-    var country_count = {};
+    
     $.each(data.items, function(index, value) {
       var resultObject = value.indexTerms;
-
-      //Processing country count data
-      if(resultObject.country != 'undefined') {
-        country_count[resultObject.country] = 1;
-      } else {
-        country_count[resultObject.country]++;
-      }
-
       if (resultObject.highertaxon) {
         taxon.push(resultObject.highertaxon);
       }
+      if (resultObject.)
     });
 
     // check if there are any results
@@ -61,3 +87,14 @@ function search_idigbio(query, api_dfd, results) {
     api_dfd.resolve();
   });
 }
+
+*/
+
+search_idigbio_location("puma concolor", "united states");
+
+
+
+
+
+
+

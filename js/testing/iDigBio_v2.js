@@ -45,6 +45,7 @@ function searchIDigBio(species){
       scientificname.push(data_extract['scientific name']);
     }
     dfd.resolve();
+    console.log(data);
   });
 
   //after dfd is resolved from deferred, run
