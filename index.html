@@ -11,23 +11,22 @@
 
   <!-- JQuery !-->
   <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <!-- JQueryUI:typeahead -->
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <!-- Angular JS !-->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
   <!-- Bootstrap !-->
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-  <!-- JQueryUI:typeahead -->
-  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
-
   <!-- APIs !-->
   <script type="text/javascript" src="js/api/gbifAPI.js"></script>
   <script type="text/javascript" src="js/api/idigbioAPI.js"></script>
   <script type="text/javascript" src="js/api/iucnAPI.js"></script>
   <script type="text/javascript" src="js/api/inaturalistAPI.js"></script>
-
+  <!-- AnguComplete -->
+  <script src="js/angucomplete-alt.min.js"></script>
   <!-- Controllers - dependent on APIs loading first !-->
   <script type="text/javascript" src="js/client/controller.js"></script>
+
 </head>
 
 <body ng-app="edamApp" ng-controller="searchController">
@@ -37,6 +36,30 @@
     <p>Search species by entering the name in the searching box. The result 
       will be a joint table with data from multiple databases</p>
   </div>
+
+<div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">Id: {{resident.id}} => {{resident.name}}</label>
+        <div class="col-lg-6">
+          <angucomplete-alt placeholder="Name" 
+            pause="100" 
+            selected-object="residentSelected"
+            search-fields="name" 
+            title-field="name" 
+            minlength="1" 
+            local-data="names"
+            input-class="form-control form-control-small"
+            match-class="highlight" 
+            override-suggestions="true"
+            clear-selected="true">
+          </angucomplete-alt>
+        </div>
+      </div>
+</br> 
+</br> 
+</br> 
+</br> 
+
+
   <!-- search form -->
   <div class="container" id="search-div"> 
     <div id="search-form" >
