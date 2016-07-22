@@ -20,8 +20,8 @@ def getCounts(query, latitude, longitude, beginning, end):
 	for i in range(end - beginning + 1):
 		url = 'http://api.gbif.org/v1/occurrence/search?scientificName='+ str(query)\
 		+'&year=' + str(beginning + i)\
-		+'&decimalLatitude=' + str(latitude - 1.5) + "," + str(latitude + 1.5)\
-		+'&decimalLongitude=' + str(longitude - 1.5) + "," + str(longitude + 1.5)\
+		+'&decimalLatitude=' + str(latitude - 0.75) + "," + str(latitude + 0.75)\
+		+'&decimalLongitude=' + str(longitude - 0.75) + "," + str(longitude + 0.75)\
 		+'&limit=5&offset=0'
 		response = urllib2.urlopen(url)
 		data = json.load(response)
@@ -105,13 +105,13 @@ def findOneQuery(query, latitude, longitude, beginning, end):
 	query = query.lower()
 	url = 'http://api.gbif.org/v1/occurrence/search?scientificName='+ str(query)\
 			+'&year=' + str(beginning) + "," + str(end)\
-			+'&decimalLatitude=' + str(latitude - 3) + "," + str(latitude + 3)\
-			+'&decimalLongitude=' + str(longitude - 3) + "," + str(longitude + 3)\
+			+'&decimalLatitude=' + str(latitude - 0.75) + "," + str(latitude + 0.75)\
+			+'&decimalLongitude=' + str(longitude - 0.75) + "," + str(longitude + 0.75)\
 			+'&limit=5&offset=0'
 	response = urllib2.urlopen(url)
 	data = json.load(response)
 	if not ("count" in data):
-		return None
+		return 0
 	else:
 		return data["count"]
 
