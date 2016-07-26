@@ -1,4 +1,3 @@
-
 import exploreData as ed
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,254 +17,179 @@ import idigbio
 
 """
 I need to edit the code so that I don't need to keep commenting out depending on the species for all the code in this file. Will do so later.
+
+NOTE: For the Galapagos Islands only, I was making Invasive Species == 1 and Non-Invasive == 0, but I switched it so that Native == 1 and Non-Native == 0 
 """
 
+
+
 """
-Gets flower counts year by year from 1900 to 2015.
+Gets query (phylum, family, etc) counts year by year from 1900 to 2015.
 
 """
 
-def getFlowerData():
-	flowers = ed.getFlowers("Galapagos Islands")
-	invasive = ed.getInvasiveSpecies("Galapagos Islands")
-	invasiveflowers = set()
-	noninvasiveflowers = set()
-	for flower in flowers:
-		if flower in invasive:
-			invasiveflowers.add(flower)
+def getData(query):
+	species = ed.getSpecies(query, "Galapagos Islands")
+	invasiveSpecies = ed.getInvasiveSpecies("Galapagos Islands")
+	invasive = set()
+	noninvasive = set()
+	for specie in species:
+		if specie in invasiveSpecies:
+			invasive.add(specie)
 		else:
-			noninvasiveflowers.add(flower)
+			noninvasive.add(specie)
 	counts = {}
 	years = np.arange(1900, 2015 + 1, 1)
-	invasiveflowersCopy = invasiveflowers.copy()
-	for flower in invasiveflowers:
-		count = ed.getCounts(flower, -0.6519, -90.4056, 1900, 2015)
+	invasiveCopy = invasive.copy()
+	for specie in invasive:
+		count = ed.getCounts(specie, -0.6519, -90.4056, 1900, 2015)
 		if count is not None:
-			counts[flower] = count
-			# plt.plot(years, count, label = mammal)
+			counts[specie] = count
 		else:
-			invasiveflowersCopy.remove(flower)
-	invasiveflowers = invasiveflowersCopy
-
-	# years = np.arange(2000, 2002, 1)
-	# plt.show()
-	noninvasiveflowersCopy = noninvasiveflowers.copy()
-	for flower in noninvasiveflowers:
-		count = ed.getCounts(flower, -0.6519, -90.4056, 1900, 2015)
+			invasiveCopy.remove(specie)
+	invasive = invasiveCopy
+	noninvasiveCopy = noninvasive.copy()
+	for specie in noninvasive:
+		count = ed.getCounts(specie, -0.6519, -90.4056, 1900, 2015)
 		if count is not None:
-			counts[flower] = count
+			counts[specie] = count
 				# plt.plot(years, count, label = mammal)
 		else: 
-			noninvasiveflowersCopy.remove(flower)
-	noninvasiveflowers = noninvasiveflowersCopy
+			noninvasiveCopy.remove(specie)
+	noninvasive = noninvasiveCopy
 	countsCopy = counts.copy()
 	for key,value in counts.items():
 		countsCopy[key] = value.tolist()
-	with open('magnoliophytadata.txt', 'w') as outfile:
+	with open("galapagos" + query + 'data.txt', 'w') as outfile:
 	    json.dump(countsCopy, outfile)
 	return countsCopy
 	
 
-"Gets reptile counts year by year from 1900 to 2015."
+# "Gets reptile counts year by year from 1900 to 2015."
 
 
-def getReptilesData():
-	reptiles = ed.getReptiles("Galapagos Islands")
-	invasive = ed.getInvasiveSpecies("Galapagos Islands")
-	invasiveReptiles = set()
-	noninvasiveReptiles = set()
-	for reptile in reptiles:
-		if reptile in invasive:
-			invasiveReptiles.add(reptile)
-		else:
-			noninvasiveReptiles.add(reptile)
-	counts = {}
-	years = np.arange(1900, 2015 + 1, 1)
-	invasiveReptilesCopy = invasiveReptiles.copy()
-	for reptile in invasiveReptiles:
-		count = ed.getCounts(reptile, -0.6519, -90.4056, 1900, 2015)
-		if count is not None:
-			counts[reptile] = count
-			# plt.plot(years, count, label = mammal)
-		else:
-			invasiveReptilesCopy.remove(reptile)
-	invasiveReptiles = invasiveReptilesCopy
+# def getReptilesData():
+# 	reptiles = ed.getReptiles("Galapagos Islands")
+# 	invasive = ed.getInvasiveSpecies("Galapagos Islands")
+# 	invasiveReptiles = set()
+# 	noninvasiveReptiles = set()
+# 	for reptile in reptiles:
+# 		if reptile in invasive:
+# 			invasiveReptiles.add(reptile)
+# 		else:
+# 			noninvasiveReptiles.add(reptile)
+# 	counts = {}
+# 	years = np.arange(1900, 2015 + 1, 1)
+# 	invasiveReptilesCopy = invasiveReptiles.copy()
+# 	for reptile in invasiveReptiles:
+# 		count = ed.getCounts(reptile, -0.6519, -90.4056, 1900, 2015)
+# 		if count is not None:
+# 			counts[reptile] = count
+# 			# plt.plot(years, count, label = mammal)
+# 		else:
+# 			invasiveReptilesCopy.remove(reptile)
+# 	invasiveReptiles = invasiveReptilesCopy
 
-	# years = np.arange(2000, 2002, 1)
-	# plt.show()
-	noninvasiveReptilesCopy = noninvasiveReptiles.copy()
-	for reptile in noninvasiveReptiles:
-		count = ed.getCounts(reptile, -0.6519, -90.4056, 1900, 2015)
-		if count is not None:
-			counts[reptile] = count
-				# plt.plot(years, count, label = mammal)
-		else: 
-			noninvasiveReptilesCopy.remove(reptile)
-	noninvasiveReptiles = noninvasiveReptilesCopy
-	countsCopy = counts.copy()
-	for key,value in counts.items():
-		countsCopy[key] = value.tolist()
-	with open('reptiledata.txt', 'w') as outfile:
-	    json.dump(countsCopy, outfile)
-	return countsCopy
+# 	# years = np.arange(2000, 2002, 1)
+# 	# plt.show()
+# 	noninvasiveReptilesCopy = noninvasiveReptiles.copy()
+# 	for reptile in noninvasiveReptiles:
+# 		count = ed.getCounts(reptile, -0.6519, -90.4056, 1900, 2015)
+# 		if count is not None:
+# 			counts[reptile] = count
+# 				# plt.plot(years, count, label = mammal)
+# 		else: 
+# 			noninvasiveReptilesCopy.remove(reptile)
+# 	noninvasiveReptiles = noninvasiveReptilesCopy
+# 	countsCopy = counts.copy()
+# 	for key,value in counts.items():
+# 		countsCopy[key] = value.tolist()
+# 	with open('reptiledata.txt', 'w') as outfile:
+# 	    json.dump(countsCopy, outfile)
+# 	return countsCopy
 
-"""
-Gets mammals counts year by year from 1900 to 2015.
-"""
+# """
+# Gets mammals counts year by year from 1900 to 2015.
+# """
 
-def getMammalsData():
-	mammals = ed.getMammals("Galapagos Islands")
-	invasive = ed.getInvasiveSpecies("Galapagos Islands")
-	invasiveMammals = set()
-	noninvasiveMammals = set()
-	for mammal in mammals:
-		if mammal in invasive:
-			invasiveMammals.add(mammal)
-		else:
-			noninvasiveMammals.add(mammal)
-	counts = {}
-	years = np.arange(1900, 2015 + 1, 1)
-	invasiveMammalsCopy = invasiveMammals.copy()
-	for mammal in invasiveMammals:
-		count = ed.getCounts(mammal, -0.6519, -90.4056, 1900, 2015)
-		if count is not None:
-			counts[mammal] = count
-			# plt.plot(years, count, label = mammal)
-		else:
-			invasiveMammalsCopy.remove(mammal)
-	invasiveMammals = invasiveMammalsCopy
+# def getMammalsData():
+# 	mammals = ed.getMammals("Galapagos Islands")
+# 	invasive = ed.getInvasiveSpecies("Galapagos Islands")
+# 	invasiveMammals = set()
+# 	noninvasiveMammals = set()
+# 	for mammal in mammals:
+# 		if mammal in invasive:
+# 			invasiveMammals.add(mammal)
+# 		else:
+# 			noninvasiveMammals.add(mammal)
+# 	counts = {}
+# 	years = np.arange(1900, 2015 + 1, 1)
+# 	invasiveMammalsCopy = invasiveMammals.copy()
+# 	for mammal in invasiveMammals:
+# 		count = ed.getCounts(mammal, -0.6519, -90.4056, 1900, 2015)
+# 		if count is not None:
+# 			counts[mammal] = count
+# 			# plt.plot(years, count, label = mammal)
+# 		else:
+# 			invasiveMammalsCopy.remove(mammal)
+# 	invasiveMammals = invasiveMammalsCopy
 
-	# years = np.arange(2000, 2002, 1)
-	# plt.show()
-	noninvasiveMammalsCopy = noninvasiveMammals.copy()
-	for mammal in noninvasiveMammals:
-		count = ed.getCounts(mammal, -0.6519, -90.4056, 1900, 2015)
-		if count is not None:
-			counts[mammal] = count
-				# plt.plot(years, count, label = mammal)
-		else: 
-			noninvasiveMammalsCopy.remove(mammal)
-	noninvasiveMammals = noninvasiveMammalsCopy
-	countsCopy = counts.copy()
-	for key,value in counts.items():
-		countsCopy[key] = value.tolist()
-	with open('galapagosmammalscounts.txt', 'w') as outfile:
-	    json.dump(countsCopy, outfile)
-	return countsCopy
+# 	# years = np.arange(2000, 2002, 1)
+# 	# plt.show()
+# 	noninvasiveMammalsCopy = noninvasiveMammals.copy()
+# 	for mammal in noninvasiveMammals:
+# 		count = ed.getCounts(mammal, -0.6519, -90.4056, 1900, 2015)
+# 		if count is not None:
+# 			counts[mammal] = count
+# 				# plt.plot(years, count, label = mammal)
+# 		else: 
+# 			noninvasiveMammalsCopy.remove(mammal)
+# 	noninvasiveMammals = noninvasiveMammalsCopy
+# 	countsCopy = counts.copy()
+# 	for key,value in counts.items():
+# 		countsCopy[key] = value.tolist()
+# 	with open('galapagosmammalscounts.txt', 'w') as outfile:
+# 	    json.dump(countsCopy, outfile)
+# 	return countsCopy
 
 """
 Get total count from -1000 to 2015. 
 """
-def getTotalCount():
-	mammals = ed.getMammals("Galapagos Islands")
-	# reptiles = ed.getReptiles("Galapagos Islands")
-	invasive = ed.getInvasiveSpecies("Galapagos Islands")
-	invasiveAnimals = set()
-	noninvasiveAnimals = set()
-	for mammal in mammals:
-		if mammal in invasive:
-			invasiveAnimals.add(mammal)
-		else:
-			noninvasiveAnimals.add(mammal)
-	# for reptile in reptiles:
-	# 	if reptile in invasive:
-	# 		invasiveAnimals.add(reptile)
-	# 	else:
-	# 		noninvasiveAnimals.add(reptile)
+def getTotalCount(query):
+	species = ed.getSpecies(query, "Galapagos Islands")
 	counts = {}
-	invasiveAnimalsCopy = invasiveAnimals.copy()
-	for animal in invasiveAnimals:
+	years = np.arange(1900, 2015 + 1, 1)
+	for animal in species:
 		count = ed.findOneQuery(animal, -0.6519, -90.4056, -1000, 2015)
 		if count is not None:
 			counts[animal] = count
 		else:
-			invasiveAnimalsCopy.remove(animal)
-	invasiveAnimals = invasiveAnimalsCopy
-
-	# # years = np.arange(2000, 2002, 1)
-	noninvasiveAnimalsCopy = noninvasiveAnimals.copy()
-	for animal in noninvasiveAnimals:
-		count = ed.findOneQuery(animal, -0.6519, -90.4056, -1000, 2015)
-		if count is not None:
-			counts[animal] = count
-				# plt.plot(years, count, label = mammal)
-		else: 
-			noninvasiveAnimalsCopy.remove(animal)
-	noninvasiveAnimals = noninvasiveAnimalsCopy
-	countsCopy = counts.copy()
-	# with open('totalcounts.txt', 'w') as outfile:
-	#     json.dump(countsCopy, outfile)
-
-
-	# mammals = ed.getMammals("Galapagos Islands")
-	# reptiles = ed.getReptiles("Galapagos Islands")
-	# flowers = ed.getFlowers("Galapagos Islands")
-	# invasive = ed.getInvasiveSpecies("Galapagos Islands")
-	# invasiveFlowers = set()
-	# noninvasiveFlowers = set()
-	# for flower in flowers:
-	# 	if flower in invasive:
-	# 		invasiveFlowers.add(flower)
-	# 	else:
-	# 		noninvasiveFlowers.add(flower)
-	# counts = {}
-	# invasiveFlowersCopy = invasiveFlowers.copy()
-	# for flower in invasiveFlowers:
-	# 	count = ed.findOneQuery(flower, -0.6519, -90.4056, -1000, 2015)
-	# 	if count is not None:
-	# 		counts[flower] = count
-	# 	else:
-	# 		invasiveFlowersCopy.remove(flower)
-	# invasiveFlowers = invasiveFlowersCopy
-
-	# years = np.arange(2000, 2002, 1)
-	# noninvasiveFlowersCopy = noninvasiveFlowers.copy()
-	# for flower in noninvasiveFlowers:
-	# 	count = ed.findOneQuery(flower, -0.6519, -90.4056, -1000, 2015)
-	# 	if count is not None:
-	# 		counts[flower] = count
-	# 			# plt.plot(years, count, label = mammal)
-	# 	else: 
-	# 		noninvasiveFlowersCopy.remove(flower)
-	# noninvasiveFlowers = noninvasiveFlowersCopy
-	# countsCopy = counts.copy()
-	# with open('magnoliophytatotalcounts.txt', 'w') as outfile:
-	#     json.dump(countsCopy, outfile)
-
-	with open("mammalstotalcounts.txt", 'w') as outfile:
-		json.dump(countsCopy, outfile)
+			counts[animal] = 0
+	with open("galapagos" + query + "TotalCounts.txt", 'w') as outfile:
+		json.dump(counts, outfile)
+	return counts
 
 
 
 
 
 """
-Makes a dataframe after counts year by year from 1900 to 2015 and total counts in all history are made.
+Makes a dataframe after counts year by year and total counts are made. Dataframe is saved as a pickle object titled 
+"galapagos" + query + ".pkl"
 """
-def makeDataframe():
-	# flowers = ed.getFlowers("Galapagos Islands")
-	mammals = ed.getMammals("Galapagos Islands")
-	# reptiles = ed.getReptiles("Galapagos Islands")
-	invasive = ed.getInvasiveSpecies("Galapagos Islands")
+def makeDataframe(query):
+	species = ed.getSpecies(query, "Galapagos Islands")
+	invasiveSpecies = ed.getInvasiveSpecies("Galapagos Islands")
 	d = dict()
-	for mammal in mammals:
-		if mammal in invasive:
-			d[mammal] = 1
+	for specie in species:
+		if specie in invasiveSpecies:
+			d[specie] = 1
 		else:
-			d[mammal] = 0
-	# for reptile in reptiles:
-	# 	if reptile in invasive:
-	# 		d[reptile] = 1
-	# 	else:
-	# 		d[reptile] = 0
-	# for flower in flowers:
-	# 	if flower in invasive:
-	# 		d[flower] = 1
-	# 	else:
-	# 		d[flower] = 0
+			d[specie] = 0
+
 	df = pd.DataFrame(d.items(), columns = ["Scientific Name", "Invasive"])
 
-	counts = json.loads(open("galapagosmammalscounts.txt").read())
+	counts = json.loads(open("galapagos" + query + "data.txt").read())
 	# counts2 = json.loads(open("reptileData.txt").read())
 	countsCopy = counts.copy()
 	for key,value in countsCopy.items():
@@ -274,7 +198,7 @@ def makeDataframe():
 	# 	counts[key] = np.asarray(value)
 
 
-	totalCounts = json.loads(open("mammalstotalcounts.txt").read())
+	totalCounts = json.loads(open(query + "TotalCounts.txt").read())
 	# totalCounts = json.loads(open("magnoliophytatotalcounts.txt").read())
 
 	df["Total Counts"] = df["Scientific Name"].map(totalCounts)	
@@ -283,27 +207,22 @@ def makeDataframe():
 
 	df["Counts"] = df["Scientific Name"].map(counts)
 
-	# totalCounts = json.loads(open("totalcounts.txt").read())
-
 	df = df[df["Counts"] == df["Counts"]]
 
 
 	df = df.reset_index()
 	df = df.drop(["index"], axis = 1)
 
-	# df.to_pickle("galapagosSpecies.pkl")
-	# df.to_pickle("galapagosFlowers.pkl")
-	df.to_pickle("galapagosMammals.pkl")
+	df.to_pickle("galapagos" + query + ".pkl")
 
 	return df	
 
 """
-Get total counts from other locations
+Get total counts from other locations. Dataframe made from makeDataframe needs to exist before calling the function. 
+Dataframe is saved as pickle object titled "galapagos" + query + "Clean.pkl"
 """
-def findOtherLocationCounts():
-	df = pd.read_pickle("galapagosMammals.pkl")
-	# df = pd.read_pickle("galapagosFlowers11")
-
+def findOtherLocationCounts(query, location):
+	df = pd.read_pickle("galapagos" + query + ".pkl")
 	for currentLocation in range(len(location)):
 		# print location[currentLocation][2]
 		locationCount = []	
@@ -316,21 +235,27 @@ def findOtherLocationCounts():
 
 
 	# df.to_pickle("galapagosSpecies.pkl")
-	df.to_pickle("galapagosMammalsClean.pkl")
+	df.to_pickle("galapagos" + query + "Clean.pkl")
 	return df	
 
 
 """
 Random exploring of data to see if there are any features worth noting. 
-Weighted Average Count is just total / number of locations where count isn't zero.
+Average Count is total / (number of locations + 1)
+Weighted Average Count is just total / (number of locations where count isn't zero + 1)
+Averages Difference is Weighted Average - Average
+Location Presence is number of locations where count isn't zero
+Median is median
+Should be called before getValues()
+Dataframe is saved as pickle object titled "galapagos" + query + "Clean2.pkl"
 
 """
 
-def getOtherAverages():
+def getOtherAverages(query, location):
 	# df2 = pd.read_pickle("galapagosFlowersClean.pkl")
 
 	# df2 = pd.read_pickle("galapagosSpecies.pkl")
-	df2 = pd.read_pickle("galapagosMammalsClean.pkl")
+	df2 = pd.read_pickle("galapagos" + query + "Clean.pkl")
 	df = df2.drop('Scientific Name', 1)
 
 	nameLen = []
@@ -373,9 +298,9 @@ def getOtherAverages():
 				nonZero += 1
 			m.append(count)
 			total += count
-		averages.append(total / len(df.columns))
+		averages.append(total / len(location + 1))
 		weightedAverage.append(total / (nonZero + 1))
-		averagesDifference.append((total / (nonZero + 1))  - total/ len(df.columns))
+		averagesDifference.append((total / (nonZero + 1))  - total/ len(location + 1))
 		totals.append(total)
 		median = np.median(np.array(m))
 		medians.append(median)
@@ -387,17 +312,19 @@ def getOtherAverages():
 	df2["Averages Difference"] = np.asarray(averagesDifference)
 	df2["Median"] = np.asarray(medians)
 	# df2.to_pickle("galapagosFlowersClean2.pkl")
-	df2.to_pickle("galapagosMammalsClean2.pkl")
+	df2.to_pickle("galapagos" + query + "Clean2.pkl")
 	return df2
 	
 """
 Get max, min, average value, and max slope of counts for each species in the dataframe.
 Thought maybe that a big change in slope may correspond to something, but doesn't seem that way.
+Dataframe is saved as pickle object titled "galapagos" + query + "Clean3.pkl"
+
 """
 
 
-def getValues():
-	df = pd.read_pickle("galapagosMammalsClean2.pkl")
+def getValues(query):
+	df = pd.read_pickle("galapagos" + query + "Clean2.pkl")
 	# df = pd.read_pickle("galapagosFlowers.pkl")
 	maxes = []
 	mins = []
@@ -431,7 +358,9 @@ def getValues():
 	df["Max"] = np.asarray(maxes)
 	df["Average Value"] = np.asarray(averageValues)
 	df["Max Slope"] = np.asarray(maxSlopes)
-	return df
+	df2.to_pickle("galapagos" + query + "Clean3.pkl")
+
+	return df2
 
 def removeZeroEntries():
 	df = getValues()
@@ -444,22 +373,30 @@ def removeZeroEntries():
 	df = df.drop(["index"], axis = 1)
 	return df
 
+"""
+Get total count in iDigBio api.
+"""
+def getidigbioCount(query):
+	df = pd.read_pickle("galapagos" + query + "Clean3.pkl")
+	api = idigbio.json()
+	counts = []
+	for i in df.index:
+		record_list = api.search_records(rq={"scientificname": df["Scientific Name"].iloc[i].replace("_", " ")})
+		counts.append(record_list["itemCount"])
+	df["iDigBio Count"] = np.asarray(counts)
+	df.to_pickle("galapagos" + query + "Clean4.pkl")
+	return df
+
+
+
 
 """
 Use clustering. Tried out a couple of them and found that normal k_means was the best.
 """
 
-def findClusters():
-	df = getValues()
-
+def findClusters(query):
+	df = pd.read_pickle("galapagos" + query + "Clean4.pkl")
 	df = df[["Averages Difference","Location Presence", "Median", "Average Count", "Total Counts", "Average Value", "iDigBio Count"]]
-	# df = df.drop('Scientific Name', 1)
-	# df = df.drop('Invasive', 1)
-	# df = df.drop("Counts", 1)
-	# df = df.drop("Max", 1)
-	# df = df.drop("Min", 1)
-	# df = df.drop("Average Value", 1)
-	# df = df.drop("Max Slope", 1)
 	x = np.array(df)	
 	X = StandardScaler().fit_transform(x)
 	k_means = cluster.KMeans(n_clusters = 7)
@@ -471,20 +408,6 @@ def findClusters():
 	core_samples_mask[db.core_sample_indices_] = True
 
 	return k_means.labels_
-
-"""
-Get total count in iDigBio api.
-"""
-def getidigbioCount():
-	df = pd.read_pickle("galapagosMammalsClean2.pkl")
-	api = idigbio.json()
-	counts = []
-	for i in df.index:
-		record_list = api.search_records(rq={"scientificname": df["Scientific Name"].iloc[i].replace("_", " ")})
-		counts.append(record_list["itemCount"])
-	df["iDigBio Count"] = np.asarray(counts)
-	df.to_pickle("galapagosMammalsClean2.pkl")
-	return df
 
 
 """
@@ -524,15 +447,3 @@ invasive = np.where(df["Invasive"] == 1)[0]
 for i in range(len(invasive)):
 	print prediction[invasive[i]]
 
-
-# print "Flowers"
-# df2 = pd.read_pickle("galapagosFlowersClean2.pkl")
-# invasive2 = np.where(df2["Invasive"] == 1)[0]
-# df2 = df2[["Averages Difference","Location Presence", "Median", "Average Count", "Total Counts", "Weighted Average Count"]]
-# x = np.array(df2)
-# X = StandardScaler().fit_transform(x)
-# k_means = MiniBatchKMeans()
-# k_means.fit(X)
-# prediction2 = k_means.labels_
-# for i in range(len(invasive2)):
-	# print prediction2[invasive2[i]]

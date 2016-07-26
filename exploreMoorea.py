@@ -2,7 +2,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import cleanData as cd
-import exploreData as ed
+import exploreData as eds
+# import googlemaps
+# import ConfigParser 
+import gmplot
+
+# """
+# If planning to use Google Maps API, make an .ini file titled "GoogleAPI.ini" with a section named "Key" and in the section have the line "Server: " + serverkey
+
+# """
+# config = ConfigParser.ConfigParser()
+# config.read("GoogleAPI.ini")
+# serverkey = config.get("Key", "Server")
 
 """
 Goes through the csv of the records on Biocode csv and maps the species to the elevations they have been recorded in.
@@ -35,7 +46,7 @@ CSV should be titled 'Biocode' + phylum + 'RecordsClean' (This is done by the cl
 
 """
 
-def getCounts(phylum):
+def getRecordCounts(phylum):
 	df = pd.read_csv("Biocode" + phylum + "RecordsClean.csv", delimiter = ",", index_col = None, header = 0)
 	counts = {}
 	for i in df.index:
@@ -51,26 +62,54 @@ Combines all the dataframes.
 """
 def combineDataFrames(phylum):
 	df1 = getElevations(phylum)
-	df2 = getCounts(phylum)
+	df2 = getRecordCounts(phylum)
 	df = pd.concat([df1, df2])
 	return df
 
+
 """
-Get total counts from other locations.
+Maps the records csv on Google Maps according to classification.
+If classified as native, color is green.
+If classified as non-native, color is red.
+If unknown classification, color is yellow.
+Classification csv should be titled "Moorea" + phylum (first letter capitalized) + "Classification" 
+CSV should be titled 'Biocode' + phylum (first letter capitalized) + 'RecordsClean' (This is done by the cleanMooreaRecords function in cleanData.py)
+Map is saved as phylum + "map.html" 
 """
-def findOtherLocationCounts(phylum):
-	df = combineDataFrames(phylum)
-	for currentLocation in range(len(location)):
-		locationCount = []	
-		for i in df.index:
-			count = ed.findOneQuery(df["ScientificName"].iloc[i], location[currentLocation][0], location[currentLocation][1], -1000, 2015)
-			locationCount.append(count)
-		df[location[currentLocation][2]] = locationCount
-		df.to_pickle("mooreaHexapod" + str(currentLocation) + ".pkl")
+
+def showGoogleMap(phylum):
+	# googlemaps.Client(serverkey)
+	classificationdf = pd.read_csv("Moorea" + phylum + "Classification.csv")
+	native = set()
+	nonnative = set()
+	for i in classificationdf.index:
+		species = classificationdf["Scientific Name"].iloc[i]
+		if classificationdf["Native"].iloc[i] == '0':
+			nonnative.add(species)
+		elif classificationdf["Native"].iloc[i] == '1':
+			native.add(species)
+	df = pd.read_csv("Biocode" + phylum + "RecordsClean.csv", delimiter = ",", index_col = None, header = 0)
+	gmap = gmplot.GoogleMapPlotter(-17.5388, -149.8295, 12)
+	latitudes = []
+	longitudes = []
+	for i in df.index:
+		latitude = df["DecimalLatitude[ce]"].iloc[i] 
+		longitude = df["DecimalLongitude[ce]"].iloc[i]
+		if latitude == latitude and longitude == longitude:
+			species = df["ScientificName"].iloc[i].lower()
+			if species in native:
+				gmap.circle(latitude, longitude, 20, color = "green")
+			elif species in nonnative:
+				gmap.circle(latitude, longitude, 20, color = "red")
+			else:
+				gmap.circle(latitude, longitude, 20, color = "yellow")
 
 
-	df.to_pickle("mooreaHexapodCounts")
-	return df	
+	# gmap = gmplot.GoogleMapPlotter(-17.5388, -149.8295, 12)
+
+	# gmap.scatter(latitudes, longitudes, color = "#00FFFF", size = 100)
+
+	gmap.draw(phylum + "map.html")
 
 location = [\
 			(-25.2744, 133.7751, "Northern Territory, Australia"),\
