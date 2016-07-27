@@ -1,3 +1,13 @@
+
+import csv
+import sklearn
+import math
+from sklearn import cluster
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import DBSCAN
+from sklearn.cluster import MiniBatchKMeans
+from difflib import SequenceMatcher
+import idigbio
 import json
 import urllib2
 import matplotlib.pyplot as plt
@@ -5,7 +15,7 @@ import numpy as np
 import pandas as pd
 
 """
-Scientific name consists of Genus and Specific Epithtet
+Scientific name consists of Genus and Specific Epithet
 Galapagos Islands: -0.6519, -90.4056
 Moorea: -17.5388, -149.8295
 """
@@ -34,12 +44,13 @@ def getCounts(query, latitude, longitude, beginning, end):
 	return counts
 
 """
-Gets query (phylum, family, etc) counts year by year from 1900 to 2015. 
-The csv should contain a genus column and a specific epithtet column. 
-
+Gets counts year by year from 1900 to 2015 from a queryCSV.
+queryCSV is the csv name. 
+The csv should contain a genus column and a specific epithet column. 
+Counts saved as json object where saveJSON is the file name.
 """
-def getData(query, latitude, longitude, location):
-	species = getSpecies(query, location)
+def getData(queryCSV, saveJSON, latitude, longitude, location):
+	species = getSpecies(queryCSV, location)
 	counts = {}
 	for specie in species:
 		count = getCounts(specie, latitude, longitude, 1900, 2015)
@@ -49,15 +60,17 @@ def getData(query, latitude, longitude, location):
 	countsCopy = counts.copy()
 	for key,value in counts.items():
 		countsCopy[key] = value.tolist()
-	with open(location.replace(" ", "") + query + 'data.txt', 'w') as outfile:
+	with open(saveJSON, 'w') as outfile:
 	    json.dump(countsCopy, outfile)
 	return countsCopy
 	
 """
 Get total count from -1000 to 2015. 
+queryCSV is the csv name.
+Counts saved as json object where saveJSON is the file name.
 """
-def getTotalCount(query, latitude, longitude, location):
-	species = ed.getSpecies(query, location)
+def getTotalCount(queryCSV, saveJSON, latitude, longitude, location):
+	species = getSpecies(queryCSV, location)
 	counts = {}
 	years = np.arange(1900, 2015 + 1, 1)
 	for animal in species:
@@ -66,34 +79,30 @@ def getTotalCount(query, latitude, longitude, location):
 			counts[animal] = count
 		else:
 			counts[animal] = 0
-	with open(location + query + "TotalCounts.txt", 'w') as outfile:
+	with open(saveJSON, 'w') as outfile:
 		json.dump(counts, outfile)
 	return counts
 
 
 """
-Makes a dataframe after counts year by year and total counts are made. Dataframe is saved as a pickle object titled 
-location + query + ".pkl"
+Makes a dataframe after counts year by year and total counts are made. Dataframe is saved as a pickle object where outputFile is the file name
 """
-def makeDataframe(query, location):
-	species = getSpecies(query, location)
+def makeDataframe(queryCSV, countsInputFile, totalCountsInputFile, outputFile, location):
+	species = getSpecies(queryCSV, location)
 	d = dict()
 	for specie in species:
 		d[specie] = None
 
 	df = pd.DataFrame(d.items(), columns = ["Scientific Name", "Native"])
 
-	counts = json.loads(open(location + query + "data.txt").read())
-	# counts2 = json.loads(open("reptileData.txt").read())
+	counts = json.loads(open(inputFile).read())
 	countsCopy = counts.copy()
 	for key,value in countsCopy.items():
 		counts[key] = np.asarray(value)
-	# for key,value in counts2.items():
-	# 	counts[key] = np.asarray(value)
 
 
-	totalCounts = json.loads(open(location + query + "TotalCounts.txt").read())
-	# totalCounts = json.loads(open("magnoliophytatotalcounts.txt").read())
+
+	totalCounts = json.loads(open(totalCountsInputFile).read())
 
 	df["Total Counts"] = df["Scientific Name"].map(totalCounts)	
 	df = df[np.isfinite(df['Total Counts'])]
@@ -107,27 +116,25 @@ def makeDataframe(query, location):
 	df = df.reset_index()
 	df = df.drop(["index"], axis = 1)
 
-	df.to_pickle(location.replace(" ", "") + query + ".pkl")
+	df.to_pickle(outputFile)
 
 	return df	
 
 
 """
 Get total counts from other locations for current location. Dataframe made from makeDataframe needs to exist before calling the function. 
-Dataframe is saved as pickle object titled location + query + "Clean.pkl"
+Dataframe is saved as pickle object where outputFile is the filename
 """
 
-def findOtherLocationCounts(query, location, otherlocations):
-	df = pd.read_pickle(location.replace(" ", "") + query + ".pkl")
+def findOtherLocationCounts(inputFile, outputFile, location, otherlocations):
+	df = pd.read_pickle(inputFile)
 	for currentLocation in range(len(otherlocations)):
-		# print location[currentLocation][2]
 		locationCount = []	
 		for i in df.index:
-			# print i 
 			count = ed.findOneQuery(df["Scientific Name"].iloc[i], location[currentLocation][0], location[currentLocation][1], -1000, 2015)
 			locationCount.append(count)
 		df[location[currentLocation][2]] = locationCount
-	df.to_pickle(location.replace(" ", "") + query + "Clean.pkl")
+	df.to_pickle(outputFile)
 	return df	
 
 """
@@ -139,14 +146,13 @@ Weighted Average Count is just total / (number of locations where count isn't ze
 Averages Difference is Weighted Average - Average
 Location Presence is number of locations where count isn't zero
 Median is median
-Should be called before getValues()
-Dataframe is saved as pickle object titled location + query + "Clean2.pkl"
-
+Should be called after findOtherLocationCounts()
+Dataframe is saved as pickle object where the file name is outputFile
 """
 
-def getOtherAverages(query, location):
+def getOtherAverages(inputFile, outputFile, location):
 
-	df2 = pd.read_pickle(location.replace(" ", "") + query + "Clean.pkl")
+	df2 = pd.read_pickle(inputFile)
 	df = df2.drop('Scientific Name', 1)
 
 	nameLen = []
@@ -193,19 +199,19 @@ def getOtherAverages(query, location):
 	df2["Location Presence"] = np.asarray(nonZeros)
 	df2["Averages Difference"] = np.asarray(averagesDifference)
 	df2["Median"] = np.asarray(medians)
-	df2.to_pickle(location.replace(" ", "") + query + "Clean2.pkl")
+	df2.to_pickle(outputFile)
 	return df2
 
 """
 Get max, min, average value, and max slope of counts for each species in the dataframe.
 Thought maybe that a big change in slope may correspond to something, but doesn't seem that way.
-Dataframe is saved as pickle object titled location + query + "Clean3.pkl"
+Dataframe is saved as pickle object where the file name is outputFile
 Should be used after getOtherAverages()
 """
 
 
-def getValues(query, location):
-	df = pd.read_pickle(location.replace(" ", "") + query + "Clean2.pkl")
+def getValues(inputFile, outputFile, location):
+	df = pd.read_pickle(inputFile)
 	maxes = []
 	mins = []
 	maxSlopes = []
@@ -238,22 +244,24 @@ def getValues(query, location):
 	df["Max"] = np.asarray(maxes)
 	df["Average Value"] = np.asarray(averageValues)
 	df["Max Slope"] = np.asarray(maxSlopes)
-	df2.to_pickle(location.replace(" ", "") + query + "Clean3.pkl")
+	df2.to_pickle(outputFile)
 
 	return df2
 
 """
-Get total count in iDigBio api. Should be used after getValues()
+Get total count in iDigBio api. Should be used after getValues().
+Dataframe is saved as pickle object where the file name is outputFile
+
 """
-def getidigbioCount(query, location):
-	df = pd.read_pickle(location.replace(" ", "") + query + "Clean3.pkl")
+def getidigbioCount(inputFile, outputFile, location):
+	df = pd.read_pickle(inputFile)
 	api = idigbio.json()
 	counts = []
 	for i in df.index:
 		record_list = api.search_records(rq={"scientificname": df["Scientific Name"].iloc[i].replace("_", " ")})
 		counts.append(record_list["itemCount"])
 	df["iDigBio Count"] = np.asarray(counts)
-	df.to_pickle(location.replace(" ", "") + query + "Clean4.pkl")
+	df.to_pickle(outputFile)
 	return df
 
 
@@ -261,9 +269,9 @@ def getidigbioCount(query, location):
 Use clustering. Tried out a couple of them and found that normal k_means was the best. Should be used after calling getidigioCount()
 """
 
-def findClusters(query, location):
-	df = pd.read_pickle(location.replace(" ", "") + query + "Clean4.pkl")
-	df = df[["Averages Difference","Location Presence", "Median", "Average Count", "Total Counts", "Average Value", "iDigBio Count"]]
+def findClusters(inputFile, location):
+	df = pd.read_pickle(inputFile)
+	df = df[["Averages Difference","Location Presence", "Median", "Average Count", "Total Counts", "iDigBio Count"]]
 	x = np.array(df)	
 	X = StandardScaler().fit_transform(x)
 	k_means = cluster.KMeans(n_clusters = 7)
@@ -362,11 +370,10 @@ def findOneQuery(query, latitude, longitude, beginning, end):
 
 
 """
-Returns a list of the invasive species in the given location, read from a csv made by getInvasiveSpecies.combineCSV. The csv should be titled:
-"invasivespecies" + location + ".csv" 
+Returns a list of the invasive species in the given location, read from a csv made by combineCSV. 
 """
-def getInvasiveSpecies(location):
-	df = pd.read_csv("invasivespecies" + location.replace(" ", "") + ".csv", delimiter = ',')
+def getInvasiveSpecies(inputFile, location):
+	df = pd.read_csv(inputFile)
 	d = df["Species"]
 	d = d.tolist()
 	s = set()
@@ -375,12 +382,11 @@ def getInvasiveSpecies(location):
 	return s
 
 """
-Returns a list of the species with the given query (phylum, family, etc.) in the given location, read from a csv made manually. The csv should be titled:
-query + location + ".csv". 
+Returns a set of the species in the queryCSV, which is the name of the csv. 
 The csv should contain a genus column and a specific epithtet column. 
 """
-def getSpecies(query, location):
-	df = pd.read_csv(query + location.replace(" ", "") + ".csv", delimiter = ",")
+def getSpecies(queryCSV, location):
+	df = pd.read_csv(queryCSV)
 	d = df["Genus"] + " " + df["Specific Epithtet"]
 	d = d.tolist()
 	s = set()

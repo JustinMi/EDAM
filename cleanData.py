@@ -3,32 +3,34 @@ import numpy as np
 import pandas as pd
 
 """
-Cleans species record data given by Moorea Biocode Project. Should be converted to csv and csv should be titled "Biocode" + phylum/subphylum + "Records".
-Cleaned csv is titled "Biocode" + phylum/subphylum + "RecordsClean.csv"
-
+Cleans species record data given by Moorea Biocode Project. The record data should be converted to csv.
 """
-def cleanMooreaRecords(phylum):
-	df = pd.read_csv("Biocode" + phylum + "Records.csv", delimiter = ",", index_col = None, header = 0)
+def cleanMooreaRecords(inputFile, outputFile):
+	df = pd.read_csv(inputFile)
 	speciesSet = set()
 	df = df[["seq_num[ce]", "MinElevationMeters[ce]", "MaxElevationMeters[ce]", "ScientificName", "Genus", "SpecificEpithet", "DecimalLatitude[ce]", "DecimalLongitude[ce]"]]
 	df["Scientific Name"] = df["ScientificName"].astype(str)
+	df["Min Elevation"] = df["MinElevationMeters[ce]"]
+	df["Max Elevation"] = df["MaxElevationMeters[ce]"]
+	df["Latitude"] = df["DecimalLatitude[ce]"]
+	df["Longitude"] = df["DecimalLongitude[ce]"]
+	df["Specific Epithet"] = df["SpecificEpithet"]
 	clean = []
 	for i in df.index:
 		if df["Scientific Name"].iloc[i] != "NaN" and " " in df["Scientific Name"].iloc[i] and "sp." not in df["Scientific Name"].iloc[i]:
 			clean.append(i)
 	df = df.iloc[clean]
-	df["Scientific Name"] = df["ScientificName"].str.lower()
+	df["Scientific Name"] = df["Scientific Name"].str.lower()
 	df = df.reset_index()
-	df = df.drop(["index", "ScientificName"], axis = 1)
-	df.to_csv("Biocode" + phylum + "RecordsClean.csv")
+	df = df.drop(["index", "ScientificName", "MinElevationMeters[ce]", "MaxElevationMeters[ce]", "DecimalLatitude[ce]", "DecimalLongitude[ce]", "SpecificEpithet"], axis = 1)
+	df.to_csv(outputFile)
 	return df
 
 """
-Cleans species data given by Moorea Biocode Project. Should be converted to csv and csv should be titled "Biocode" + phylum/subphylum.
-Cleaned csv is titled "Moorea" + phylum + ".csv"
+Cleans species data given by Moorea Biocode Project. The species data should be converted to csv.
 """
-def cleanMooreaSpecies(phylum):
-	df = pd.read_csv("Biocode" + phylum + ".csv", delimiter = ",", index_col = None, header = 0)
+def cleanMooreaSpecies(inputFile, outputFile):
+	df = pd.read_csv(inputFile)
 	speciesSet = set()
 	for i in df.index:
 		genus = str(df["genus"].iloc[i])
@@ -40,16 +42,16 @@ def cleanMooreaSpecies(phylum):
 
 	df = pd.DataFrame(list(speciesSet))
 	df.columns = ["Scientific Name"]
-	df.to_csv("Moorea" + phylum[0].upper() + phylum[1:].lower() + ".csv")
+	df.to_csv(outputFile)
 	return df
 
 """
 Not all the species are actually in the species data given by the Moorea Biocode Project. The function utilizes the records data and combines it with the 
 classification data to get all species.
 """
-def getAllSpecies(phylum):
-	records = pd.read_csv("Biocode" + phylum + "RecordsClean.csv", delimiter = ",", index_col = None, header = 0)
-	classificationdf = pd.read_csv("Moorea" + phylum + "Classification.csv")	
+def getAllSpecies(recordsFile, classificationFile, outputFile, phylum):
+	records = pd.read_csv(recordsFile)
+	classificationdf = pd.read_csv(classificationFile)	
 	s = set()
 	for i in records.index:
 		s.add(records["Scientific Name"].iloc[i])
@@ -62,7 +64,7 @@ def getAllSpecies(phylum):
 	classificationdf = classificationdf.reset_index()
 	classificationdf = classificationdf.drop(["index", "Unnamed: 0"], axis = 1)
 	classificationdf = classificationdf[["Scientific Name", "Native", "Distribution", "Notes"]]
-	classificationdf.to_csv("classification.csv")
+	classificationdf.to_csv(outputFile)
 	return classificationdf
 
 """
@@ -77,11 +79,4 @@ def combineCSV(location, numFiles):
 	frame = pd.concat(dfList)
 	frame.to_csv("invasivespecies" + location.replace(" ", "") + ".csv")
 
-"""
-Returns a set of the invasive species in the given location, read from a csv made by combineCSV. The csv should be titled:
-"invasivespecies" + "location" + ".csv" 
-"""
-def getInvasiveSpecies(location):
-	df = pd.read_csv("invasivespecies" + location.replace(" ", "") + ".csv", delimiter = ',')
-	return set(df["Species"].tolist())
 
