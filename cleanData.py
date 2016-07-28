@@ -23,7 +23,7 @@ def cleanMooreaRecords(inputFile, outputFile):
 	df["Scientific Name"] = df["Scientific Name"].str.lower()
 	df = df.reset_index()
 	df = df.drop(["index", "ScientificName", "MinElevationMeters[ce]", "MaxElevationMeters[ce]", "DecimalLatitude[ce]", "DecimalLongitude[ce]", "SpecificEpithet"], axis = 1)
-	df.to_csv(outputFile)
+	df.to_pickle(outputFile)
 	return df
 
 """

@@ -1,0 +1,98 @@
+,Scientific Name,Min Elevations,Max Elevations,Max Elevation,Min Elevation,Scientific Name,Counts,Scientific Name,Native
+0,pantala flavescens,"[350.0, 750.0, 200.0, 290.0, 290.0, 290.0, 290.0]","[50.0, 50.0, 50.0, 450.0, 850.0, 400.0, 390.0, 390.0, 390.0, 390.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",850.0,200.0,pantala flavescens,18.0,acicnemis crassiusculus,1
+1,xylosandrus compactus,[],[50.0],50.0,Empty,xylosandrus compactus,1.0,cryptophlebia pallifimbriana,1
+2,coelophora inaequalis,[],"[50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",50.0,Empty,coelophora inaequalis,12.0,aedes polynesiensis,0
+3,hypena longfieldiae,[840.0],[840.0],840.0,840.0,hypena longfieldiae,1.0,targalla delatrix,1
+4,pheidole umbonata,[],[],Empty,Empty,pheidole umbonata,10.0,lispinus subopacus,1
+5,cryptophlebia pallifimbriana,"[413.0, 236.0, 236.0, 470.0, 380.0, 1207.0]","[413.0, 236.0, 236.0, 470.0, 1207.0]",1207.0,236.0,cryptophlebia pallifimbriana,6.0,hydrotetrix aspera,1
+6,anomis involuta,"[730.0, 730.0, 400.0]",[],Empty,400.0,anomis involuta,3.0,scymnodes lividigaster,0
+7,coccotrypes cyperi,[],[],Empty,Empty,coccotrypes cyperi,1.0,oopsis nutator,1
+8,musca domestica,[],"[50.0, 50.0]",50.0,Empty,musca domestica,2.0,cleoris licornaria,1
+9,solenopsis papuana,[420.0],[520.0],520.0,420.0,solenopsis papuana,4.0,simodactylus cinnamomeus,1
+10,aphis craccivora,[],"[50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",50.0,Empty,aphis craccivora,55.0,polydesma umbricola,0
+11,harmonia axyridis,[],[],Empty,Empty,harmonia axyridis,1.0,hypena fulvifasciata,1
+12,bactrocera dorsalis,[],"[50.0, 50.0, 50.0]",50.0,Empty,bactrocera dorsalis,3.0,stemorrhages thetydalis,1
+13,spoladea recurvalis,"[240.0, 20.0]","[120.0, 50.0, 50.0]",120.0,20.0,spoladea recurvalis,4.0,tharra tahitiensis,1
+14,liorhyssus hyalinus,[5.0],[5.0],5.0,5.0,liorhyssus hyalinus,1.0,zizina labradus,0
+15,targalla delatrix,"[800.0, 310.0, 873.0, 873.0, 253.0]","[800.0, 310.0, 50.0, 50.0]",800.0,253.0,targalla delatrix,8.0,chrysodeixis chalcites,0
+16,heteropsylla cubana,[50.0],[50.0],50.0,50.0,heteropsylla cubana,1.0,scholastes lonchifer,1
+17,condica hollowayi,"[840.0, 840.0]","[840.0, 840.0]",840.0,840.0,condica hollowayi,2.0,cephalochrysa maxima,1
+18,pison irridipennis,"[260.0, 260.0]","[260.0, 260.0]",260.0,260.0,pison irridipennis,2.0,apis mellifera,0
+19,eublemma crassiuscula,"[200.0, 30.0, 30.0]","[400.0, 130.0, 130.0, 50.0]",400.0,30.0,eublemma crassiuscula,4.0,ananca bicolor,1
+20,periplaneta australasiae,[],"[50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",50.0,Empty,periplaneta australasiae,15.0,eumenes porriformis,1
+21,myrmica hellenica,[],[],Empty,Empty,myrmica hellenica,1.0,ananca kanack,1
+22,melanitis leda,"[445.0, 340.0, 340.0, 340.0, 340.0, 340.0, 150.0, 920.0, 920.0, 920.0, 920.0]","[440.0, 440.0, 440.0, 440.0, 440.0, 250.0, 1020.0, 50.0, 1020.0, 1020.0, 1020.0]",1020.0,150.0,melanitis leda,12.0,ophiusa coronata,1
+23,pisistrata trypheropa,[243.0],[243.0],243.0,243.0,pisistrata trypheropa,1.0,gnathothlibus erotus,0
+24,luceria oculalis,[75.0],[75.0],75.0,75.0,luceria oculalis,1.0,anthicus oceanicus,1
+25,pheidole fervens,[],[],Empty,Empty,pheidole fervens,8.0,eumenes pomiformis,0
+26,anatrachyntis incertulella,[440.0],[],Empty,440.0,anatrachyntis incertulella,1.0,ornidia obesa,0
+27,oopsis nutator,"[377.0, 279.0]","[377.0, 279.0]",377.0,279.0,oopsis nutator,2.0,utetheisa pulchelloides,1
+28,cardiocondyla emeryi,"[279.0, 118.0]","[279.0, 118.0]",279.0,118.0,cardiocondyla emeryi,2.0,balclutha rosea,1
+29,eunemobius carolinus,[],[],Empty,Empty,eunemobius carolinus,1.0,stenommatus musae,0
+30,ischnura verticalis,[],[],Empty,Empty,ischnura verticalis,2.0,maliattha ritsemae,1
+31,aedes albopicuts,"[260.0, 260.0, 260.0, 260.0]","[260.0, 260.0, 260.0, 260.0]",260.0,260.0,aedes albopicuts,4.0,piletocera signiferalis,1
+32,sceliphron laetum,[],"[50.0, 50.0, 50.0]",50.0,Empty,sceliphron laetum,3.0,kallitaxila sinica,1
+33,hyblaea puera,"[413.0, 420.0, 310.0]","[413.0, 420.0, 310.0]",420.0,310.0,hyblaea puera,3.0,periplaneta australasiae,0
+34,simplicia caeneusalis,"[1189.0, 400.0, 3.0, 1.0]",[],Empty,1.0,simplicia caeneusalis,4.0,leptoglossus australis,0
+35,simodactylus cinnamomeus,[],"[50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",50.0,Empty,simodactylus cinnamomeus,13.0,pantala flavescens,1
+36,adeana leucoxantha,"[940.0, 410.0]","[940.0, 410.0]",940.0,410.0,adeana leucoxantha,2.0,gyponana germari,1
+37,polydesma umbricola,[400.0],"[50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",50.0,400.0,polydesma umbricola,8.0,chasmina tibialis,1
+38,zizina labradus,"[1290.0, 1290.0, 1290.0, 1290.0, 1290.0]","[50.0, 1390.0, 1390.0, 1390.0, 1390.0, 1390.0]",1390.0,1290.0,zizina labradus,6.0,evania appendigaster,0
+39,allograpta amphotera,"[183.0, 377.0]","[183.0, 377.0]",377.0,183.0,allograpta amphotera,2.0,tropidomantis tenera,1
+40,anthrax semiscitus,[],"[50.0, 50.0, 50.0]",50.0,Empty,anthrax semiscitus,3.0,arbanatus parallelus,1
+41,stemorrhages thetydalis,"[822.0, 1207.0]","[822.0, 1207.0]",1207.0,822.0,stemorrhages thetydalis,2.0,tetramorium pacificum,1
+42,comodica coarctata,[2.0],[],Empty,2.0,comodica coarctata,1.0,hypolimnas bolina,1
+43,callopistria maillardi,"[310.0, 873.0]",[310.0],310.0,310.0,callopistria maillardi,2.0,glyphodes multilinealis,1
+44,anomis flava,"[873.0, 873.0, 744.0, 380.0]",[],Empty,380.0,anomis flava,4.0,aedes aegypti,0
+45,cricotopus intersectus,[],[],Empty,Empty,cricotopus intersectus,1.0,teleogryllus oceanicus,1
+46,chironomus crassiforceps,[],"[50.0, 50.0]",50.0,Empty,chironomus crassiforceps,2.0,toxorhina spinulifera,1
+47,monomorium liliuokalanii,[],[],Empty,Empty,monomorium liliuokalanii,4.0,achaea janata,1
+48,wasmannia auropunctata,[],[],Empty,Empty,wasmannia auropunctata,3.0,litargus vestitus,1
+49,anterhynchium rufipes,"[77.0, 290.0, 290.0, 200.0, 30.0, 30.0, 30.0, 30.0, 250.0, 150.0]","[50.0, 177.0, 50.0, 50.0, 390.0, 390.0, 300.0, 50.0, 130.0, 130.0, 130.0, 130.0, 50.0, 50.0, 350.0, 250.0, 50.0]",390.0,30.0,anterhynchium rufipes,18.0,sitophilus granarius,0
+50,lucilia cuprina,[],[50.0],50.0,Empty,lucilia cuprina,3.0,pycnoscelus surinamensis,0
+51,tharra tahitiensis,"[500.0, 1900.0, 300.0, 300.0, 500.0, 500.0, 300.0, 800.0, 940.0, 940.0, 940.0, 940.0, 700.0]","[500.0, 1900.0, 300.0, 300.0, 500.0, 500.0, 300.0, 800.0, 940.0, 940.0, 940.0, 940.0, 700.0]",1900.0,300.0,tharra tahitiensis,14.0,anticarsia irrorata,1
+52,hydrillodes crispipalpus,[873.0],[],Empty,873.0,hydrillodes crispipalpus,1.0,euploea lewinii,1
+53,dinema filicornis,[],"[50.0, 50.0, 50.0, 50.0, 50.0]",50.0,Empty,dinema filicornis,5.0,nezara viridula,0
+54,xylosandrus crassiusculus,"[750.0, 150.0, 150.0, 920.0, 920.0, 1120.0, 920.0, 920.0, 1250.0, 1250.0, 1250.0, 1250.0, 1250.0, 1250.0, 1250.0, 1250.0, 1250.0, 1250.0]","[50.0, 850.0, 250.0, 250.0, 1020.0, 1020.0, 1220.0, 1020.0, 1020.0, 1350.0, 1350.0, 1350.0, 1350.0, 1350.0, 1350.0, 1350.0, 1350.0, 1350.0, 1350.0]",1350.0,150.0,xylosandrus crassiusculus,20.0,tetramorium bicaniratum,0
+55,miocalles vagus,"[260.0, 260.0]","[260.0, 260.0]",260.0,260.0,miocalles vagus,2.0,melanitis leida,0
+56,pollenia rudis,[],[],Empty,Empty,pollenia rudis,1.0,telostylinus lineolatus,0
+57,coccinella transversalis,[],"[50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",50.0,Empty,coccinella transversalis,9.0,ceresium unicolor,1
+58,sitobion avenae,"[995.0, 995.0, 995.0, 995.0, 995.0, 995.0, 995.0, 995.0, 995.0, 1100.0, 1100.0, 1100.0]","[1095.0, 1095.0, 1095.0, 1095.0, 1095.0, 1095.0, 1095.0, 1095.0, 1095.0, 1200.0, 1200.0, 1200.0]",1200.0,995.0,sitobion avenae,12.0,eudocima fullonica,0
+59,agrotis ipsilon,[1207.0],[1207.0],1207.0,1207.0,agrotis ipsilon,1.0,lallemandana fenestrata,1
+60,pectinophora gossypiella,"[310.0, 300.0]","[310.0, 300.0]",310.0,300.0,pectinophora gossypiella,2.0,homalodisca vitripennis,0
+61,figulus foveicollis,[250.0],[350.0],350.0,250.0,figulus foveicollis,1.0,chelisoches morio,0
+62,ananca bicolor,"[5.0, 5.0]","[5.0, 5.0]",5.0,5.0,ananca bicolor,2.0,adoretus sinicus,0
+63,atella sinha,[],[50.0],50.0,Empty,atella sinha,1.0,hyalopeplus pellucidus,1
+64,hypoponera opaciceps,[183.0],[183.0],183.0,183.0,hypoponera opaciceps,3.0,hermetia illucens,0
+65,polypedilum convictum,[],[],Empty,Empty,polypedilum convictum,2.0,batracomorphus colina,1
+66,ananca kanack,"[260.0, 260.0]","[260.0, 260.0]",260.0,260.0,ananca kanack,2.0,tharra nitida,1
+67,neocrompus pallax,"[260.0, 260.0]","[260.0, 260.0]",260.0,260.0,neocrompus pallax,2.0,spodoptera litura,0
+68,laccophilus maculosus,[],[],Empty,Empty,laccophilus maculosus,1.0,coleotichus adamsoni,1
+69,ophiusa coronata,[],"[50.0, 50.0]",50.0,Empty,ophiusa coronata,2.0,lampides baeticus,0
+70,lestes sponsa,[],[],Empty,Empty,lestes sponsa,1.0,mocis trifasciata,1
+71,gnathothlibus erotus,"[42.0, 243.0, 420.0, 750.0, 750.0, 750.0, 750.0]","[42.0, 243.0, 420.0, 50.0, 50.0, 850.0, 850.0, 850.0, 850.0, 50.0, 50.0, 50.0]",850.0,42.0,gnathothlibus erotus,14.0,sophonia rufofascia,0
+72,tapinoma melanocephalum,"[175.0, 260.0, 260.0, 260.0, 260.0, 100.0, 100.0, 100.0, 200.0, 250.0, 250.0, 250.0, 420.0]","[175.0, 260.0, 260.0, 260.0, 260.0, 200.0, 200.0, 200.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 400.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 350.0, 350.0, 350.0, 50.0, 50.0, 50.0, 50.0, 50.0, 520.0]",520.0,100.0,tapinoma melanocephalum,36.0,polistes olivaceus,0
+73,liriomyza sativae,[],"[50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",50.0,Empty,liriomyza sativae,17.0,carpophilus humeralis,0
+74,tetramorium simillimum,[],[],Empty,Empty,tetramorium simillimum,3.0,cosmopolites sordidus,0
+75,acicnemis crassiusculus,[],"[50.0, 50.0]",50.0,Empty,acicnemis crassiusculus,2.0,sophonia orientalis,1
+76,ornidia obesa,"[353.0, 260.0, 260.0, 350.0, 350.0, 750.0, 200.0, 290.0, 250.0, 340.0, 340.0]","[353.0, 260.0, 260.0, 50.0, 50.0, 50.0, 450.0, 450.0, 850.0, 400.0, 390.0, 350.0, 440.0, 440.0, 50.0]",850.0,200.0,ornidia obesa,15.0,thalassodes pilaria,1
+77,utetheisa pulchelloides,[],"[50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",50.0,Empty,utetheisa pulchelloides,17.0,exitianus plebius,1
+78,erechthias simulans,[1.0],[],Empty,1.0,erechthias simulans,1.0,cimex lectularius,0
+79,paratrechina longicornis,"[183.0, 5.0, 5.0, 5.0]","[183.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 5.0, 5.0, 5.0]",183.0,5.0,paratrechina longicornis,22.0,blattella germanica,0
+80,mezira membranacea,[],"[50.0, 50.0, 50.0, 50.0]",50.0,Empty,mezira membranacea,4.0,omonadus floralis,0
+81,apis mellifera,"[995.0, 475.0, 750.0, 750.0, 750.0, 290.0, 410.0]","[50.0, 50.0, 50.0, 1095.0, 575.0, 50.0, 50.0, 850.0, 850.0, 850.0, 50.0, 50.0, 390.0, 510.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",1095.0,290.0,apis mellifera,32.0,styringomyia didyma,0
+82,chrysoperla congrua,[279.0],[279.0],279.0,279.0,chrysoperla congrua,1.0,tapinoma melanocephalum,0
+83,balclutha rosea,"[279.0, 130.0, 183.0, 500.0, 500.0]","[279.0, 130.0, 183.0, 500.0, 500.0]",500.0,130.0,balclutha rosea,8.0,acicnemis variegatus,0
+84,dichelopa argoschista,"[800.0, 940.0, 700.0]","[800.0, 940.0]",940.0,700.0,dichelopa argoschista,3.0,ctenocephalides felis,0
+85,piletocera signiferalis,"[243.0, 243.0, 420.0, 3.0, 3.0, 1.0, 1.0, 260.0, 260.0, 30.0, 370.0, 370.0, 250.0, 150.0]","[243.0, 243.0, 420.0, 260.0, 260.0, 130.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 470.0, 50.0, 50.0, 470.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 350.0, 250.0]",470.0,1.0,piletocera signiferalis,37.0,atella sinha,1
+86,platynus cincticollis,[],[],Empty,Empty,platynus cincticollis,1.0,paratachys sexguttatus,1
+87,diaphania indica,[],[50.0],50.0,Empty,diaphania indica,1.0,agrotis ipsilon,0
+88,tetramorium caldarium,[],[],Empty,Empty,tetramorium caldarium,3.0,aegomorphus quadrigibbus,0
+89,pentalonia nigronervosa,[],[50.0],50.0,Empty,pentalonia nigronervosa,1.0,coleophora inaequalis,0
+90,salina celebensis,[260.0],[260.0],260.0,260.0,salina celebensis,1.0,empoasca solana,0
+91,culex pipiens,[],"[50.0, 50.0, 50.0, 50.0, 50.0, 50.0]",50.0,Empty,culex pipiens,6.0,graeffea crouani,1
+92,anochetus graeffei,"[750.0, 750.0]","[850.0, 850.0, 50.0, 50.0, 50.0]",850.0,750.0,anochetus graeffei,10.0,technomyrmex vitiensis,0
+93,gerris marginatus,[],[],Empty,Empty,gerris marginatus,1.0,bastilla tahitiensis,1
+94,labdia dicyanitis,"[800.0, 340.0]","[800.0, 340.0]",800.0,340.0,labdia dicyanitis,2.0,anoplolepis gracilipes,0
+95,echmepteryx lunulata,"[260.0, 260.0]","[260.0, 260.0]",260.0,260.0,echmepteryx lunulata,2.0,marasmia hemicrossa,1
+96,telostylinus lineolatus,"[1207.0, 920.0, 920.0, 920.0, 920.0, 920.0, 920.0, 920.0, 920.0, 920.0, 920.0]","[1207.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 1020.0, 1020.0, 1020.0, 1020.0, 1020.0, 1020.0, 1020.0, 1020.0, 1020.0, 1020.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 100.0, 50.0, 50.0, 50.0, 100.0]",1207.0,920.0,telostylinus lineolatus,36.0,xylosandrus compactus,0

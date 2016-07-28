@@ -46,7 +46,7 @@ def getCounts(query, latitude, longitude, beginning, end):
 """
 Gets counts year by year from 1900 to 2015 from a queryCSV.
 queryCSV is the csv name. 
-The csv should contain a genus column and a specific epithet column. 
+The csv should contain a genus column and a specific epithet column or scientific name column. 
 Counts saved as json object where saveJSON is the file name.
 """
 def getData(queryCSV, saveJSON, latitude, longitude, location):
@@ -123,17 +123,19 @@ def makeDataframe(queryCSV, countsInputFile, totalCountsInputFile, outputFile, l
 
 """
 Get total counts from other locations for current location. Dataframe made from makeDataframe needs to exist before calling the function. 
-Dataframe is saved as pickle object where outputFile is the filename
+Dataframe is saved as pickle object or csv where outputFile is the filename
 """
 
-def findOtherLocationCounts(inputFile, outputFile, location, otherlocations):
+def findOtherLocationCounts(inputFile, outputFile, otherlocations):
 	df = pd.read_pickle(inputFile)
 	for currentLocation in range(len(otherlocations)):
+		print currentLocation
 		locationCount = []	
 		for i in df.index:
-			count = ed.findOneQuery(df["Scientific Name"].iloc[i], location[currentLocation][0], location[currentLocation][1], -1000, 2015)
+			count = findOneQuery(df["Scientific Name"].iloc[i], otherlocations[currentLocation][0], otherlocations[currentLocation][1], -1000, 2015)
 			locationCount.append(count)
-		df[location[currentLocation][2]] = locationCount
+		df[otherlocations[currentLocation][2]] = locationCount
+		df.to_pickle("mooreaHexapod" + str(currentLocation) + ".pkl")
 	df.to_pickle(outputFile)
 	return df	
 
@@ -387,12 +389,15 @@ The csv should contain a genus column and a specific epithtet column.
 """
 def getSpecies(queryCSV, location):
 	df = pd.read_csv(queryCSV)
-	d = df["Genus"] + " " + df["Specific Epithtet"]
-	d = d.tolist()
+	if "Scientific Name" in df.columns:
+		d = df["Scientific Name"]
+	else:
+		d = df["Genus"] + " " + df["Specific Epithtet"]
+		d = d.tolist()
 	s = set()
 	for item in d:
 		s.add(item.lower())
-	sCopy = s.copy()
+		sCopy = s.copy()
 	for item in s:
 		if not all(c.isalpha() or c.isspace() for c in item):
 			sCopy.remove(item)

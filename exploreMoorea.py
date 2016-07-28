@@ -21,7 +21,7 @@ Goes through the cleaned csv of the records on Biocode and maps the species to t
 """
 
 def getElevations(inputFile):
-	df = pd.read_csv(inputFile)
+	df = pd.read_pickle(inputFile)
 	minElevations = {}
 	maxElevations = {}
 	for i in df.index:
@@ -37,6 +37,9 @@ def getElevations(inputFile):
 			maxElevations[species].append(maxElevation)
 	df = pd.DataFrame(minElevations.items(), columns = ["Scientific Name", "Min Elevations"])
 	df["Max Elevations"] = df["Scientific Name"].map(maxElevations)
+	df["Max Elevation"] = df.apply(lambda row: max(row["Max Elevations"] or ['Empty']), axis = 1)
+	df["Min Elevation"] = df.apply(lambda row: min(row["Min Elevations"] or ['Empty']), axis = 1)
+
 	return df
 
 """
@@ -45,7 +48,7 @@ Goes through the cleaned csv of the records on Biocode and records the total num
 """
 
 def getRecordCounts(inputFile):
-	df = pd.read_csv(inputFile)
+	df = pd.read_pickle(inputFile)
 	counts = {}
 	for i in df.index:
 		species = df["Scientific Name"].iloc[i]
@@ -56,13 +59,44 @@ def getRecordCounts(inputFile):
 	return df
 
 """
-Combines all the dataframes. 
+Combines the dataframes made from the records csv and the dataframe of classifications. 
 """
-def combineDataFrames(inputFile):
-	df1 = getElevations(inputFile)
-	df2 = getRecordCounts(inputFile)
-	df = pd.concat([df1, df2])
-	return df
+def combineDataFrames(recordsFile, classificationFile):
+	df1 = getElevations(recordsFile)
+	df2 = getRecordCounts(recordsFile)
+	df3 = df1.merge(df2, on = "Scientific Name")
+	df4 = pd.read_csv(classificationFile)
+	df4 = df4[["Scientific Name", "Native"]]
+	df5 = df3.merge(df4, on = "Scientific Name")
+	return df5
+
+"""
+Keep only the species that we know are native or not.
+"""
+def getClassifiedSpecies(recordsFile, classificationFile):
+	df1 = combineDataFrames(recordsFile, classificationFile)
+	classified = []
+	for i in df1.index:
+		if df1["Native"].iloc[i] == "1" or df1["Native"].iloc[i] == "0":
+			classified.append(i)
+	df2 = df1.iloc[classified]
+	df2 = df2.reset_index()
+	df2["Native"] = pd.to_numeric(df2["Native"])
+	df2 = df2.drop(["index"], axis = 1)
+	return df2
+
+"""
+Get the counts of the classified species from different locations.
+"""
+
+def getOtherLocationCounts(recordsFile, classificationFile, classifiedFile, totalCountsFile, outputFile):
+ 	df = getClassifiedSpecies(recordsFile, classificationFile)
+	df.to_pickle(classifiedFile)
+	ed.findOtherLocationCounts(classifiedFile, outputFile, location)
+	df2 = pd.read_pickle(totalCountsFile)
+	df3 = df.merge(df2, on = "Scientific Name")
+	df3.to_pickle(outputFile)
+
 
 
 """
@@ -133,9 +167,13 @@ location = [\
 			(-6.1745, 106.8227, "Jakarta, Indonesia"),\
 			(-4.0435, 39.6682, "Mombasa County, Kenya")]
 
-cd.cleanMooreaRecords("BiocodeHexapodRecords.csv", "mooreaHexapodRecords.csv")
-showGoogleMap("mooreaHexapodRecords.csv", "mooreaHexapodclassification.csv", "MooreaMap.html")
+cd.cleanMooreaRecords("BiocodeHexapodRecords.csv", "mooreaHexapodRecords.pkl")
+# showGoogleMap("mooreaHexapodRecords.csv", "mooreaHexapodclassification.csv", "MooreaMap.html")
 
 # df = findOtherLocationCounts("Hexapod")
 # df = pd.read_pickle("mooreaHexapodCounts")
 
+
+df = getClassificationSpecies("mooreaHexapodRecords.pkl", "mooreaHexapodclassification.csv")
+# df.to_pickle("mooreaHexapodData.pkl")
+# ed.findOtherLocationCounts("mooreaHexapodData.pkl", "mooreaHexapodTotalCounts", location)
