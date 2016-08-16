@@ -20,6 +20,14 @@ Galapagos Islands: -0.6519, -90.4056
 Moorea: -17.5388, -149.8295
 """
 
+def convertCSVtoPickle(csvFile, pickleFile):
+	df = pd.read_csv(csvFile)
+	df.to_pickle(pickleFile)
+
+def convertPickletoCSV(pickleFile, csvFile):
+	df = pd.read_pickle(pickleFile)
+	df.to_csv(csvFile, index_col = 0)
+
 """
 Returns a np array of counts of the query (scientific name of a species) from gbif at the specified latitude and longitude year by year from beginning to end.
 """
@@ -65,7 +73,7 @@ def getData(queryCSV, saveJSON, latitude, longitude, location):
 	return countsCopy
 	
 """
-Get total count from -1000 to 2015. 
+Get total count of a place from -1000 to 2015. 
 queryCSV is the csv name.
 Counts saved as json object where saveJSON is the file name.
 """
@@ -140,9 +148,8 @@ def findOtherLocationCounts(inputFile, outputFile, otherlocations):
 	return df	
 
 """
+inputFile should only contain counts of locations and scientific name 
 Random exploring of data to see if there are any features worth noting. 
-Name Length is name length (No idea where I was going with this)
-Name Similarity is seeing how similar the name of a species is to the location (Totally useless)
 Average Count is total / (number of locations + 1)
 Weighted Average Count is just total / (number of locations where count isn't zero + 1)
 Averages Difference is Weighted Average - Average
@@ -152,24 +159,16 @@ Should be called after findOtherLocationCounts()
 Dataframe is saved as pickle object where the file name is outputFile
 """
 
-def getOtherAverages(inputFile, outputFile, location):
+def getOtherAverages(inputFile, outputFile):
 
 	df2 = pd.read_pickle(inputFile)
 	df = df2.drop('Scientific Name', 1)
 
-	nameLen = []
-	nameSimilarity = []
-	for i in df2.index:
-		similarities = []
-		similarity = SequenceMatcher(None, location, df2["Scientific Name"].iloc[i].replace(" ", "")).ratio()
-		nameLen.append(len(df2["Scientific Name"].iloc[i]) - 1)
-		nameSimilarity.append(similarity)
-	df2["Name Length"] = np.asarray(nameLen)
-	df2["Average Similarity"] = np.asarray(nameSimilarity)
-
-	df = df.drop('Invasive', 1)
-	df = df.drop("Counts", 1)
-	df = df.drop("Total Counts", 1)
+	# df = df.drop('Native', 1)
+	# df = df.drop("Counts", 1)
+	# df = df.drop("Length (cm)", 1)
+	# df = df.drop("Wingspan (cm)", 1)
+	# df = df.drop("Total Counts", 1)
 	averages = []
 	weightedAverage = []
 	nonZeros = []
@@ -183,14 +182,14 @@ def getOtherAverages(inputFile, outputFile, location):
 		nonZero = 0
 		weight = 0
 		for j in range(len(df.columns)):
-			count =  df[df.columns[j]].iloc[i]
+			count =  int(df[df.columns[j]].iloc[i])
 			if count != 0:
 				nonZero += 1
 			m.append(count)
 			total += count
 		averages.append(total / (len(df.columns) + 1))
 		weightedAverage.append(total / (nonZero + 1))
-		averagesDifference.append((total / (nonZero + 1))  - total/ len(df.columns + 1))
+		averagesDifference.append((total / (nonZero + 1))  - total/ (len(df.columns) + 1))
 		totals.append(total)
 		median = np.median(np.array(m))
 		medians.append(median)
@@ -212,7 +211,7 @@ Should be used after getOtherAverages()
 """
 
 
-def getValues(inputFile, outputFile, location):
+def getValues(inputFile, outputFile):
 	df = pd.read_pickle(inputFile)
 	maxes = []
 	mins = []
@@ -255,7 +254,7 @@ Get total count in iDigBio api. Should be used after getValues().
 Dataframe is saved as pickle object where the file name is outputFile
 
 """
-def getidigbioCount(inputFile, outputFile, location):
+def getidigbioCount(inputFile, outputFile):
 	df = pd.read_pickle(inputFile)
 	api = idigbio.json()
 	counts = []
@@ -268,15 +267,16 @@ def getidigbioCount(inputFile, outputFile, location):
 
 
 """
-Use clustering. Tried out a couple of them and found that normal k_means was the best. Should be used after calling getidigioCount()
+Use clustering. Tried out a couple of them and found that normal k_means was the best. 
+Features should be a list of feature names. 
 """
 
-def findClusters(inputFile, location):
+def findClusters(inputFile, features):
 	df = pd.read_pickle(inputFile)
-	df = df[["Averages Difference","Location Presence", "Median", "Average Count", "Total Counts", "iDigBio Count"]]
+	df = df[features]
 	x = np.array(df)	
 	X = StandardScaler().fit_transform(x)
-	k_means = cluster.KMeans(n_clusters = 7)
+	k_means = cluster.KMeans(n_clusters = 8)
 	k_means.fit(X)
 	k_meansBatch = MiniBatchKMeans(n_clusters = 8, max_iter = 500)
 	k_meansBatch.fit(X)
@@ -284,7 +284,7 @@ def findClusters(inputFile, location):
 	core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 	core_samples_mask[db.core_sample_indices_] = True
 
-	return k_means.labels_
+	return k_meansBatch.labels_
 
 
 """
@@ -369,6 +369,24 @@ def findOneQuery(query, latitude, longitude, beginning, end):
 		return 0
 	else:
 		return data["count"]
+
+"""
+Returns the total count of a query from beginning year to end year given latitude and longitude.
+"""
+
+def findBasicQuery(query):	
+	query = query.replace(" ", "_")
+	query = query.lower()
+	url = 'http://api.gbif.org/v1/occurrence/search?scientificName='+ str(query)\
+			+'&limit=5&offset=0'
+	response = urllib2.urlopen(url)
+	data = json.load(response)
+	if not ("count" in data):
+		return 0
+	else:
+		return data["count"]
+
+
 
 
 """

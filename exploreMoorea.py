@@ -3,17 +3,8 @@ import numpy as np
 import pandas as pd
 import cleanData as cd
 import exploreData as ed
-# import googlemaps
-# import ConfigParser 
 import gmplot
 
-# """
-# If planning to use Google Maps API, make an .ini file titled "GoogleAPI.ini" with a section named "Key" and in the section have the line "Server: " + serverkey
-
-# """
-# config = ConfigParser.ConfigParser()
-# config.read("GoogleAPI.ini")
-# serverkey = config.get("Key", "Server")
 
 """
 Goes through the cleaned csv of the records on Biocode and maps the species to the elevations they have been recorded in.
@@ -55,7 +46,7 @@ def getRecordCounts(inputFile):
 		if species not in counts:
 			counts[species] = 0
 		counts[species] += 1
-	df = pd.DataFrame(counts.items(), columns = ["Scientific Name", "Counts"])
+	df = pd.DataFrame(counts.items(), columns = ["Scientific Name", "Total Count"])
 	return df
 
 """
@@ -89,13 +80,14 @@ def getClassifiedSpecies(recordsFile, classificationFile):
 Get the counts of the classified species from different locations.
 """
 
-def getOtherLocationCounts(recordsFile, classificationFile, classifiedFile, totalCountsFile, outputFile):
+def getOtherLocationCounts(recordsFile, classificationFile, classifiedFile, totalCountsFile):
  	df = getClassifiedSpecies(recordsFile, classificationFile)
 	df.to_pickle(classifiedFile)
-	ed.findOtherLocationCounts(classifiedFile, outputFile, location)
-	df2 = pd.read_pickle(totalCountsFile)
-	df3 = df.merge(df2, on = "Scientific Name")
-	df3.to_pickle(outputFile)
+	df2 = ed.findOtherLocationCounts(classifiedFile, totalCountsFile, location)
+	df2.to_pickle(totalCountsFile)
+	df2.to_csv(totalCountsFile, index_col = 0)
+	return df2
+
 
 
 
@@ -104,8 +96,6 @@ Maps the records csv on Google Maps according to classification.
 If classified as native, color is green.
 If classified as non-native, color is red.
 If unknown classification, color is yellow.
-Classification csv should be titled "Moorea" + phylum (first letter capitalized) + "Classification" 
-CSV should be titled 'Biocode' + phylum (first letter capitalized) + 'RecordsClean' (This is done by the cleanMooreaRecords function in cleanData.py)
 Map is saved as html with name outputMap
 """
 
@@ -136,11 +126,6 @@ def showGoogleMap(recordFile, classificationFile, outputMap):
 			else:
 				gmap.circle(latitude, longitude, 20, color = "yellow")
 
-
-	# gmap = gmplot.GoogleMapPlotter(-17.5388, -149.8295, 12)
-
-	# gmap.scatter(latitudes, longitudes, color = "#00FFFF", size = 100)
-
 	gmap.draw(outputMap)
 
 location = [\
@@ -167,13 +152,11 @@ location = [\
 			(-6.1745, 106.8227, "Jakarta, Indonesia"),\
 			(-4.0435, 39.6682, "Mombasa County, Kenya")]
 
-cd.cleanMooreaRecords("BiocodeHexapodRecords.csv", "mooreaHexapodRecords.pkl")
-# showGoogleMap("mooreaHexapodRecords.csv", "mooreaHexapodclassification.csv", "MooreaMap.html")
 
-# df = findOtherLocationCounts("Hexapod")
-# df = pd.read_pickle("mooreaHexapodCounts")
-
-
-df = getClassificationSpecies("mooreaHexapodRecords.pkl", "mooreaHexapodclassification.csv")
-# df.to_pickle("mooreaHexapodData.pkl")
-# ed.findOtherLocationCounts("mooreaHexapodData.pkl", "mooreaHexapodTotalCounts", location)
+# ed.convertCSVtoPickle("mooreaHexapodTrainingTest.csv", "mooreaHexapodTrainingTest.pkl")
+# df = pd.read_pickle("mooreaHexapodTrainingTest.pkl")
+# prediction = ed.findClusters("mooreaHexapodTrainingTest.pkl", ["Percent", "Length (cm)", "Min Elevation", "Max Elevation", "World Total", "Total Count", "Elevation Difference", "Location Presence"])
+# df["Prediction"] = np.asarray(prediction)
+# native = np.where(df["Native"] == 1)[0]
+# for i in range(len(native)):
+# 	print prediction[native[i]]

@@ -325,7 +325,6 @@ Dataframe is saved as pickle object titled "galapagos" + query + "Clean3.pkl"
 
 def getValues(query):
 	df = pd.read_pickle("galapagos" + query + "Clean2.pkl")
-	# df = pd.read_pickle("galapagosFlowers.pkl")
 	maxes = []
 	mins = []
 	maxSlopes = []
