@@ -1,0 +1,115 @@
+/* General CSS to be used by all pages, can be overwritten */
+.navbar {
+  margin-bottom: 0;
+  background-color: #04a340;
+  z-index: 9999;
+  border: 0;
+  font-size: 12px;
+  line-height: 1.42857143;
+  letter-spacing: 4px;
+  border-radius: 0;
+  opacity: 0.9;
+}
+
+.navbar .nav li a, .navbar .navbar-brand {
+  color: #fff;
+}
+
+.navbar .navbar-brand:hover {
+  color: #fff;
+}
+
+.navbar .nav li a:hover, .navbar .nav li.active a {
+  color: #f4511e;
+  background-color: #fff;
+}
+
+.jumbotron {
+  background-color: green;
+  color: #ffffff;
+  padding: 70px 25px;
+}
+
+.container-fluid {
+  padding: 20px 50px;
+}
+
+.bg-grey {
+  background-color: #f6f6f6;
+}
+
+.green-text {
+  color: green;
+}
+
+.thumbnail {
+    border: 0 none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+.d3rect {
+  fill: steelblue;
+}
+
+/* change color for both matrix and bar graph */
+#feature_importance rect:hover {
+  fill: brown;
+}
+#confusion_matrix rect:hover {
+  fill: brown;
+}
+
+#3d_scatter_plot {
+
+}
+
+.d3-tip rect:hover {
+  fill: brown;
+}
+
+/* D3 Style tips */
+.d3-tip {
+  line-height: 1;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: '\25BC';
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips specifically */
+.d3-tip.n:after {
+  margin: -2px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.axis--x path {
+}
+
+.axis text {
+  font: 16px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+}
+.circ:hover {
+  fill: brown;
+}
